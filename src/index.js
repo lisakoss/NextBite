@@ -6,8 +6,6 @@ import firebase from 'firebase';
 import { BrowserRouter, Route, Link} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 import SignUp from './SignUp';
-import SignIn from './SignIn';
-
 
 // Initialize Firebase
 var config = {
@@ -20,12 +18,12 @@ var config = {
 };
 firebase.initializeApp(config);
 
-
 ReactDOM.render(
     <BrowserRouter>
-        <Route exact path='/home' component={App} />
-        <Route exact path='/signup' component={SignUp} />
-        <Route exact path='/signin' component={SignIn} />
+        <div>
+            <Route exact path='/home' component={App} />
+            <Route exact path='/signup' component={SignUp} />
+        </div>
     </BrowserRouter>, 
     
     document.getElementById('root')
