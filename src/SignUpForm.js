@@ -117,6 +117,7 @@ class SignUpForm extends React.Component {
                 <div role="article">
                     <AppBar title="NextBite" />
                     <h1>Sign Up</h1>
+                    
                     <form>
                         <ValidatedInput field="email" type="email" floatingLabelText="Email" changeCallback={this.handleChange} errors={emailErrors} /><br />
                         <ValidatedInput field="firstName" type="text" floatingLabelText="First Name" changeCallback={this.handleChange} errors={firstNameErrors} /><br />

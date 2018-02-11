@@ -15,6 +15,7 @@ class SignUp extends React.Component {
         this.loadApp = this.loadApp.bind(this);
     }
 
+    // redirect
     loadApp() {
         this.props.history.push('/home');
     }
