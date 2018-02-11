@@ -8,7 +8,6 @@ import registerServiceWorker from './registerServiceWorker';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 
-
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyAS-lGtWLQDefNPadgIrUqM4weNwCFrsSo",
@@ -20,7 +19,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-
+// Render the application view
 ReactDOM.render(
     <BrowserRouter>
         <Route exact path='/home' component={App} />
