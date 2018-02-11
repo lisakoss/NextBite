@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Avatar from 'material-ui/Avatar';
+import AppBar from 'material-ui/AppBar';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -101,6 +102,7 @@ class SignUpForm extends React.Component {
         let lastNameErrors = this.validate(this.state.lastName, {required: true, minLength: 1});
         let passwordConfirmErrors = this.validate(this.state.password, {required: true, match: true})
         let avatar = <Avatar>{"N"}</Avatar> // default
+
         if(this.state.firstName !== undefined && this.state.avatar === '') {
             avatar = <Avatar>{this.state.firstName.charAt(0).toUpperCase()}</Avatar>
         } else if(this.state.avatar !== '') {
@@ -113,6 +115,7 @@ class SignUpForm extends React.Component {
         return (
             <MuiThemeProvider>
                 <div role="article">
+                    <AppBar title="NextBite" />
                     <h1>Sign Up</h1>
                     <form>
                         <ValidatedInput field="email" type="email" floatingLabelText="Email" changeCallback={this.handleChange} errors={emailErrors} /><br />
