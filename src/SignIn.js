@@ -35,10 +35,11 @@ class SignIn extends React.Component {
     //A callback function for logging in existing users
     signIn(email, password) {
         // Sign in the user 
+        let thisComponent = this;
         firebase.auth().signInWithEmailAndPassword(email, password) //logs in user with email and password
         .catch(function(error) { //displays an error if there is a mistake with logging a user in
             var errorMessage = error.message;
-            this.setState({error: errorMessage}); //put error message in state
+            thisComponent.setState({error: errorMessage}); //put error message in state
         });
     }
 

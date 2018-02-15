@@ -1,6 +1,10 @@
 import React from 'react';
 import firebase from 'firebase';
+import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 /**
  * A form for logging into a website.
@@ -88,6 +92,7 @@ class SignInForm extends React.Component {
         var signInEnabled = (emailErrors.isValid && passwordErrors.isValid);
   
         return (
+            <MuiThemeProvider>
             <div role="article">
                 <h1>sign in</h1>
         
@@ -101,12 +106,13 @@ class SignInForm extends React.Component {
 
                 </form>
             </div>
+            </MuiThemeProvider>
         );
     }
 }
 
 //to enforce proptype declaration
-SignUpForm.propTypes = {
+SignInForm.propTypes = {
     signInCallback: PropTypes.func.isRequired,
 };
   
@@ -117,7 +123,7 @@ class ValidatedInput extends React.Component {
     render() {
         return (
             <div>
-                <Textfield
+                <TextField
                 onChange={this.props.changeCallback}
                 floatingLabelText={this.props.floatingLabelText}
                 id={this.props.field}
