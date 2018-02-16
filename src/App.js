@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import logo from './logo.svg';
 import './App.css';
-
-
+import Logout from './Logout';
 
 
 class App extends Component {
@@ -17,6 +16,7 @@ class App extends Component {
         </header>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
+          <Logout/>
         </p>
       </div>
 
