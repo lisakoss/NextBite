@@ -9,12 +9,13 @@
     "bootstrap": "^4.0.0",
     "firebase": "^4.9.1",
     "jquery": "^3.3.1",
-    "material-ui": "^0.20.0",
     "popper.js": "^1.12.9",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "reactstrap": "^5.0.0-beta"
+    "material-ui": "^0.20.0",
     "react-popper": "^0.8.2",
-    "react-router-dom": "^4.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
