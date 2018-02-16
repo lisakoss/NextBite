@@ -14,6 +14,8 @@
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "reactstrap": "^5.0.0-beta"
+    "material-ui": "^0.20.0",
+    "react-popper": "^0.8.2",
   },
   "scripts": {
     "start": "react-scripts start",
