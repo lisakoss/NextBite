@@ -9,6 +9,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 const styles = {
     snack: {
         textAlign: 'center',
+    },
+    progress: {
+        marginTop: '10px',
     }
 }
 
@@ -71,7 +74,7 @@ class SignIn extends React.Component {
             content = (<div><SignInForm signInCallback={this.signIn} /></div>);
         }
         if(this.state.spinnerDisplay) { // show spinner when loading
-            snackbarContent = <CircularProgress />;
+            snackbarContent = <CircularProgress style={styles.progress}/>;
         } else if(this.state.error !== undefined) { // otherwise show error msg
             snackbarContent = this.state.error;
         } 
