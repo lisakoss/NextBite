@@ -5,8 +5,25 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Avatar from 'material-ui/Avatar';
 import AppBar from 'material-ui/AppBar';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+const styles = {
+    block: {
+      maxWidth: 250,
+      display:'flex', 
+      flexWrap: 'wrap', 
+      justifyContent: 'space-between',
+      marginTop: '20px'
+    },
+    radioButton: {
+      marginBottom: 16,
+      display: 'inline-block',
+      width: 'auto'
+    },
+  };
+
 
 class SignUpForm extends React.Component {
     constructor(props) {
@@ -17,6 +34,8 @@ class SignUpForm extends React.Component {
             lastName: undefined,
             password: undefined,
             passwordConfirm: undefined, 
+            mobile: undefined,
+            personType: undefined,
             avatar: '' //optional
         };
 
@@ -29,6 +48,7 @@ class SignUpForm extends React.Component {
         let field = event.target.name;
         let value = event.target.value;
         console.log(field)
+        console.log(value)
 
         let changes = {}; //object to hold changes
         changes[field] = value; //change this field
@@ -38,7 +58,7 @@ class SignUpForm extends React.Component {
     //handle signUp button
     signUp(event) {
         event.preventDefault(); //don't submit
-        this.props.signUpCallback(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.avatar);
+        this.props.signUpCallback(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.mobile, this.state.personType, this.state.avatar);
     }
 
     /**
@@ -67,7 +87,7 @@ class SignUpForm extends React.Component {
             if(validations.email) {
                 //pattern comparison from w3c
                 //https://www.w3.org/TR/html-markup/input.email.html#input.email.attrs.value.single
-                var valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)
+                var valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
                 if(!valid) {
                     errors.email = true;
                     errors.isValid = false;
@@ -78,6 +98,15 @@ class SignUpForm extends React.Component {
             if(validations.match) {
                 if(this.state.password !== this.state.passwordConfirm) {
                     errors.match = true;
+                    errors.isValid = false;
+                }
+            }
+
+            // handle mobile phone number
+            if(validations.phone) {
+                var valid = /^([\d]{6}|((\([\d]{3}\)|[\d]{3})( [\d]{3} |-[\d]{3}-)))[\d]{4}$/.test(value);
+                if(!valid) {
+                    errors.phone = true;
                     errors.isValid = false;
                 }
             }
@@ -100,42 +129,63 @@ class SignUpForm extends React.Component {
         let passwordErrors = this.validate(this.state.password, {required: true, minLength: 8});
         let firstNameErrors = this.validate(this.state.firstName, {required: true, minLength: 1});
         let lastNameErrors = this.validate(this.state.lastName, {required: true, minLength: 1});
+        let mobileErrors = this.validate(this.state.mobile, {required: true, phone: true});
         let passwordConfirmErrors = this.validate(this.state.password, {required: true, match: true})
+        let typeErrors = this.validate(this.state.personType, {required: true})
         let avatar = <Avatar>{"N"}</Avatar> // default
 
         if(this.state.firstName !== undefined && this.state.avatar === '') {
             avatar = <Avatar>{this.state.firstName.charAt(0).toUpperCase()}</Avatar>
         } else if(this.state.avatar !== '') {
-            avatar = <Avatar src={this.state.avatar} />
+            avatar = <Avatar className="avatar" src={this.state.avatar} />
         }
  
         //button validation
-        let signUpEnabled = (emailErrors.isValid && passwordErrors.isValid && firstNameErrors.isValid && lastNameErrors.isValid && passwordConfirmErrors.isValid);
+        let signUpEnabled = (emailErrors.isValid && passwordErrors.isValid && firstNameErrors.isValid && lastNameErrors.isValid && passwordConfirmErrors.isValid && mobileErrors.isValid && typeErrors.isValid);
         
         return (
             <MuiThemeProvider>
                 <div role="article">
                     <AppBar title="NextBite" />
-                    <h1>Sign Up</h1>
-                    
-                    <form>
-                        <ValidatedInput field="email" type="email" floatingLabelText="Email" changeCallback={this.handleChange} errors={emailErrors} /><br />
-                        <ValidatedInput field="firstName" type="text" floatingLabelText="First Name" changeCallback={this.handleChange} errors={firstNameErrors} /><br />
-                        <ValidatedInput field="lastName" type="text" floatingLabelText="Last Name" changeCallback={this.handleChange} errors={lastNameErrors} /><br />
-                        <ValidatedInput field="password" type="password" floatingLabelText="Password" changeCallback={this.handleChange}errors={passwordErrors} /><br />
-                        <ValidatedInput field="passwordConfirm" type="password" floatingLabelText="Confirm Password" changeCallback={this.handleChange} errors={passwordConfirmErrors} /><br />
-
-                        <div className="avatar-field">          
-                            {avatar}
-
-                            <TextField id="avatar" name="avatar" type="text" hintText="http://www.test.com/picture.jpg" floatingLabelText="Avatar Image URL" floatingLabelFixed={true} onChange={this.handleChange} /><br />
-                        </div>
+                    <div className="container-content">
+                    <div className ="signup-form">
+                        <h1>sign up</h1>
                         
-                        <div>
-                            <p><RaisedButton id="submit-button" label="submit" primary={true} disabled={!signUpEnabled} onClick={(event) => this.signUp(event)} /></p>
-                            <p>Already have an account? <a href="/login">Sign In!</a></p>
-                        </div>
-                    </form>
+                        <form>
+                            <ValidatedInput field="email" type="email" floatingLabelText="Email" changeCallback={this.handleChange} errors={emailErrors} />
+                            <ValidatedInput field="firstName" type="text" floatingLabelText="First Name" changeCallback={this.handleChange} errors={firstNameErrors} />
+                            <ValidatedInput field="lastName" type="text" floatingLabelText="Last Name" changeCallback={this.handleChange} errors={lastNameErrors} />
+                            <ValidatedInput field="password" type="password" floatingLabelText="Password" changeCallback={this.handleChange}errors={passwordErrors} />
+                            <ValidatedInput field="passwordConfirm" type="password" floatingLabelText="Confirm Password" changeCallback={this.handleChange} errors={passwordConfirmErrors} />
+                            <ValidatedInput field="mobile" type="text" floatingLabelText="Mobile Phone Number" changeCallback={this.handleChange} errors={mobileErrors} />
+                            <p>Are you a...</p>
+                            <RadioButtonGroup name="personType" style={styles.block} onChange={this.handleChange} errors={typeErrors}>
+                                <RadioButton
+                                    value="volunteer"
+                                    label="Volunteer"
+                                    field="type"
+                                    style={styles.radioButton}
+                                /><RadioButton
+                                    value="Vendor"
+                                    label="Vendor"
+                                    field="type"
+                                    style={styles.radioButton}
+                                />
+                            </RadioButtonGroup>
+
+                            <div className="avatar-field">         
+                                {avatar}
+
+                                <TextField className="avatar-input" id="avatar" name="avatar" type="text" hintText="http://www.test.com/picture.jpg" floatingLabelText="Avatar Image URL" floatingLabelFixed={true} onChange={this.handleChange} /><br />
+                            </div>
+                            
+                            <div>
+                                <p><RaisedButton id="submit-button" label="sign up" primary={true} disabled={!signUpEnabled} onClick={(event) => this.signUp(event)} /></p>
+                                <p>Already have an account? <a href="/signin">Sign In!</a></p>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
                 </div>
             </MuiThemeProvider>
         );
@@ -152,7 +202,7 @@ SignUpForm.propTypes = {
 class ValidatedInput extends React.Component {
     render() {
         return (
-            <div>
+            <div className={"form-group "+this.props.errors.style}>
                 <TextField
                     onChange={this.props.changeCallback}
                     floatingLabelText={this.props.floatingLabelText}
@@ -181,6 +231,9 @@ class ValidationErrors extends React.Component {
                 }
                 {this.props.errors.match &&
                 <span className="help-block">Your passwords do not match.</span>
+                }
+                {this.props.errors.phone &&
+                <span className="help-block">That is not a valid phone number.</span>
                 }
             </div>
         );

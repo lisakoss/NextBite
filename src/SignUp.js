@@ -41,13 +41,15 @@ class SignUp extends React.Component {
         }
     }
 
-    signUp(email, password, firstName, lastName, avatar) {
+    signUp(email, password, firstName, lastName, mobile, personType, avatar) {
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((firebaseUser) => {
             firebaseUser.updateProfile({
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
+                mobile: mobile,
+                personType: personType,
                 photoURL: avatar
             });
 
@@ -57,6 +59,8 @@ class SignUp extends React.Component {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
+                mobile: mobile,
+                personType: personType,
                 avatar: avatar
             }
 
@@ -76,7 +80,7 @@ class SignUp extends React.Component {
 
         return(
             <div>
-                <main role="article" className="content-container">
+                <main role="article">
                     {content}
                 </main>
             </div>

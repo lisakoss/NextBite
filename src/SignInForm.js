@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import AppBar from 'material-ui/AppBar';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -94,17 +95,20 @@ class SignInForm extends React.Component {
         return (
             <MuiThemeProvider>
             <div role="article">
-                <h1>sign in</h1>
-        
-                <form role="form" className="sign-up-form">
-                    <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
-                    <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
-                    <div>
-                        <p><RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} /></p>
-                        <p>Don't have an account yet? <a href="/signup">Sign Up!</a></p>
-                    </div>
+                <AppBar title="NextBite" />
+                <div className="container-content">
+                    <h1>sign in</h1>
+            
+                    <form role="form" className="sign-up-form">
+                        <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
+                        <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
+                        <div>
+                            <p><RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} /></p>
+                            <p>Don't have an account yet? <a href="/signup">Sign Up!</a></p>
+                        </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
             </MuiThemeProvider>
         );
@@ -122,7 +126,7 @@ SignInForm.propTypes = {
 class ValidatedInput extends React.Component {
     render() {
         return (
-            <div>
+            <div className={"form-group "+this.props.errors.style}>
                 <TextField
                 onChange={this.props.changeCallback}
                 floatingLabelText={this.props.floatingLabelText}
