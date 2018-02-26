@@ -100,7 +100,7 @@ class SignInForm extends React.Component {
                     <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
                     <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
                     <div>
-                        <p><RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} /></p>
+                        <RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} />
                         <p>Don't have an account yet? <a href="/signup">Sign Up!</a></p>
                     </div>
 

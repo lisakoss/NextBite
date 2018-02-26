@@ -49,7 +49,7 @@ class Logout extends React.Component {
                 <RaisedButton id="submit-button" label="sign out" primary={true} onClick={(event) => this.signOut()} />
             </div>
         }
-			</div>
+			    </div>
         </MuiThemeProvider>
     );
   }

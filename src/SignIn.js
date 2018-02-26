@@ -10,6 +10,12 @@ class SignIn extends React.Component {
         this.state = {error: null};
 
         this.signIn = this.signIn.bind(this);
+        this.loadApp = this.loadApp.bind(this);
+    }
+
+    // redirect
+    loadApp() {
+        this.props.history.push('/home');
     }
 
     //Lifecycle callback executed when the component appears on the screen.
