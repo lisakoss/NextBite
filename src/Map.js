@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types'; // ES6
+import PropTypes from 'prop-types'; 
 
 export class Map extends React.Component {
     constructor(props) {
         super(props);
-    
+
         const {lat, lng} = this.props.initialCenter;
         this.state = {
             currentLocation: {
@@ -75,8 +75,52 @@ export class Map extends React.Component {
             zoom: zoom
             })
             this.map = new maps.Map(node, mapConfig);
+
+            const evtNames = ['ready', 'click', 'dragend'];
+            evtNames.forEach(e => {
+                this.map.addListener(e, this.handleEvent(e));
+            });
+            
+            maps.event.trigger(this.map, 'ready');
         }
         // ...
+    }
+
+    handleEvent(evtName) {
+        const camelize = function(str) {
+            return str.split(' ').map(function(word){
+              return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join('');
+        }
+
+        let timeout;
+        const handlerName = `on${camelize(evtName)}`;
+
+        return (e) => {
+            if (timeout) {
+                clearTimeout(timeout);
+                timeout = null;
+            }
+            timeout = setTimeout(() => {
+                if (this.props[handlerName]) {
+                    this.props[handlerName](this.props, this.map, e);
+                }
+            }, 0);
+        }
+    }
+
+    renderChildren() {
+        const {children} = this.props;
+
+        if (!children) return; // no children
+
+        return React.Children.map(children, c => {
+            return React.cloneElement(c, {
+              map: this.map,
+              google: this.props.google,
+              mapCenter: this.state.currentLocation
+            });
+        })
     }
 
     render() {
@@ -89,6 +133,7 @@ export class Map extends React.Component {
         return (   
             <div style={style} ref='map'>
                 Loading map...
+                {this.renderChildren()}
             </div>
         )
     }
@@ -98,17 +143,19 @@ Map.propTypes = {
     google: PropTypes.object,
     zoom: PropTypes.number,
     initialCenter: PropTypes.object,
-    centerAroundCurrentLocation: PropTypes.bool
+    centerAroundCurrentLocation: PropTypes.bool,
+    onMove: PropTypes.func
 }
 
 Map.defaultProps = {
     zoom: 17,
-    // San Francisco, by default
+    // Seattle, by default
     initialCenter: {
       lat: 47.7204208,
       lng: -122.2885376
     },
-    centerAroundCurrentLocation: true
+    centerAroundCurrentLocation: true,
+    onMove: function() {} // default prop
   }
 
 export default Map;
