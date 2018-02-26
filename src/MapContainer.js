@@ -10,14 +10,18 @@ import GoogleApiComponent from 'google-maps-react/dist/GoogleApiComponent';
 export class Container extends React.Component {
   render() {
     const style = {
-        width: '100%',
-        height: '100%',
-        position: 'absolute'
+        width: '65%',
+        height: '100vh',
+        position: 'absolute',
+        display: 'inline-block'
     }
     
     return (
-        <div style={style}>
-            <Map google={this.props.google}/>
+        <div className="container">
+            <div className="map-info">hi</div>
+            <div style={style}>
+                <Map google={this.props.google}/>
+            </div>
         </div>
     );
   }

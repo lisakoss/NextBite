@@ -7,7 +7,18 @@ body {
   background-color: #EDEDED
 }
 
+.container {
+  overflow: hidden;
+}
 
+/* map */
+.map-info {
+  background-color: #FFFFFF;
+  width: 35%;
+  height:100vh;
+  display: 'inline-block';
+  float: left;
+}
 
 /* avatar */
 .avatar {
