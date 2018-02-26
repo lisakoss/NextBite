@@ -20,13 +20,12 @@ firebase.initializeApp(config);
 // Render the application view
 ReactDOM.render(
     <Router>
-    <div>
-        <Switch>
-            <Route path="/" component={App}/>
-        </Switch>
-    </div>
-  </Router>, 
-    
+      <div>
+          <Switch>
+              <Route path="/" component={App}/>
+          </Switch>
+      </div>
+    </Router>, 
     document.getElementById('root')
 );
 registerServiceWorker();
