@@ -21,6 +21,8 @@ export class Container extends React.Component {
         }
 
         this.onMarkerClick = this.onMarkerClick.bind(this);
+        this.onMapClick = this.onMapClick.bind(this);
+        this.onInfoWindowClose = this.onInfoWindowClose.bind(this);
     }
 
     getInitialState() {
@@ -39,6 +41,22 @@ export class Container extends React.Component {
         });
     }
 
+    onMapClick() {
+        if (this.state.showingInfoWindow) {
+            this.setState({
+                showingInfoWindow: false,
+                activeMarker: null
+            });
+        }
+    }
+
+    onInfoWindowClose() {
+        this.setState({
+          showingInfoWindow: false,
+          activeMarker: null
+        })
+    }
+
     render() {
         const style = {
             width: '65%',
@@ -53,7 +71,8 @@ export class Container extends React.Component {
                 <div className="container">
                     <div className="map-info">hi</div>
                     <div style={style}>
-                        <Map google={this.props.google}>
+                        <Map google={this.props.google}
+                             onClick={this.onMapClick}>
                             <Marker onClick={this.onMarkerClick}
                                     name={'Current Location'}/>
                             <Marker onClick={this.onMarkerClick}
@@ -61,7 +80,8 @@ export class Container extends React.Component {
                                     position={pos}/>
                             <InfoWindow
                                 marker={this.state.activeMarker}
-                                visible={this.state.showingInfoWindow}>
+                                visible={this.state.showingInfoWindow}
+                                onClose={this.onInfoWindowClose}>
                                 <div>
                                     <h1>{this.state.selectedPlace.name}</h1>
                                 </div>
