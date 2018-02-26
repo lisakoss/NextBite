@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import AppBar from 'material-ui/AppBar';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -25,10 +26,10 @@ class SignInForm extends React.Component {
   
     //update state for specific field
     handleChange(event) {
-        var field = event.target.name;
-        var value = event.target.value;
+        let field = event.target.name;
+        let value = event.target.value;
 
-        var changes = {}; //object to hold changes
+        let changes = {}; //object to hold changes
         changes[field] = value; //change this field
         this.setState(changes); //update state
     }
@@ -47,7 +48,7 @@ class SignInForm extends React.Component {
      * (for required field, with min length of 5, and valid email)
      */
     validate(value, validations) {
-        var errors = {isValid: true, style:''};
+        let errors = {isValid: true, style:''};
 
         if(value !== undefined) { //check validations
             if(validations.required && value === '') {
@@ -64,7 +65,7 @@ class SignInForm extends React.Component {
             if(validations.email) {
                 //pattern comparison from w3c
                 //https://www.w3.org/TR/html-markup/input.email.html#input.email.attrs.value.single
-                var valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)
+                let valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)
                 if(!valid) {
                 errors.email = true;
                 errors.isValid = false;
@@ -85,26 +86,29 @@ class SignInForm extends React.Component {
   
     render() {
         //field validation
-        var emailErrors = this.validate(this.state.email, {required:true, email:true});
-        var passwordErrors = this.validate(this.state.password, {required:true, minLength:8});
+        let emailErrors = this.validate(this.state.email, {required:true, email:true});
+        let passwordErrors = this.validate(this.state.password, {required:true, minLength:8});
 
         //button validation
-        var signInEnabled = (emailErrors.isValid && passwordErrors.isValid);
+        let signInEnabled = (emailErrors.isValid && passwordErrors.isValid);
   
         return (
             <MuiThemeProvider>
             <div role="article">
-                <h1>sign in</h1>
-        
-                <form role="form" className="sign-up-form">
-                    <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
-                    <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
-                    <div>
-                        <p><RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} /></p>
-                        <p>Don't have an account yet? <a href="/signup">Sign Up!</a></p>
-                    </div>
+                <AppBar title="NextBite" />
+                <div className="container-content">
+                    <h1>sign in</h1>
+            
+                    <form role="form" className="sign-up-form">
+                        <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
+                        <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
+                        <div>
+                            <p><RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} /></p>
+                            <p>Don't have an account yet? <a href="/signup">Sign Up!</a></p>
+                        </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
             </MuiThemeProvider>
         );
@@ -122,7 +126,7 @@ SignInForm.propTypes = {
 class ValidatedInput extends React.Component {
     render() {
         return (
-            <div>
+            <div className={"form-group "+this.props.errors.style}>
                 <TextField
                 onChange={this.props.changeCallback}
                 floatingLabelText={this.props.floatingLabelText}
