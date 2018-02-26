@@ -68,7 +68,7 @@ class SignUpForm extends React.Component {
    * (for required field, with min length of 5, and valid email)
    */
     validate(value, validations) {
-        var errors = {isValid: true, style:''};
+        let errors = {isValid: true, style:''};
 
         if(value !== undefined) { //check validations
             //display name required
@@ -87,7 +87,7 @@ class SignUpForm extends React.Component {
             if(validations.email) {
                 //pattern comparison from w3c
                 //https://www.w3.org/TR/html-markup/input.email.html#input.email.attrs.value.single
-                var valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
+                let valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
                 if(!valid) {
                     errors.email = true;
                     errors.isValid = false;
@@ -104,7 +104,7 @@ class SignUpForm extends React.Component {
 
             // handle mobile phone number
             if(validations.phone) {
-                var valid = /^([\d]{6}|((\([\d]{3}\)|[\d]{3})( [\d]{3} |-[\d]{3}-)))[\d]{4}$/.test(value);
+                let valid = /^([\d]{6}|((\([\d]{3}\)|[\d]{3})( [\d]{3} |-[\d]{3}-)))[\d]{4}$/.test(value);
                 if(!valid) {
                     errors.phone = true;
                     errors.isValid = false;
@@ -148,7 +148,6 @@ class SignUpForm extends React.Component {
                 <div role="article">
                     <AppBar title="NextBite" />
                     <div className="container-content">
-                    <div className ="signup-form">
                         <h1>sign up</h1>
                         
                         <form>
@@ -184,7 +183,6 @@ class SignUpForm extends React.Component {
                                 <p>Already have an account? <a href="/signin">Sign In!</a></p>
                             </div>
                         </form>
-                    </div>
                     </div>
                 </div>
             </MuiThemeProvider>

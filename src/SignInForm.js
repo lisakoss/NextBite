@@ -26,10 +26,10 @@ class SignInForm extends React.Component {
   
     //update state for specific field
     handleChange(event) {
-        var field = event.target.name;
-        var value = event.target.value;
+        let field = event.target.name;
+        let value = event.target.value;
 
-        var changes = {}; //object to hold changes
+        let changes = {}; //object to hold changes
         changes[field] = value; //change this field
         this.setState(changes); //update state
     }
@@ -48,7 +48,7 @@ class SignInForm extends React.Component {
      * (for required field, with min length of 5, and valid email)
      */
     validate(value, validations) {
-        var errors = {isValid: true, style:''};
+        let errors = {isValid: true, style:''};
 
         if(value !== undefined) { //check validations
             if(validations.required && value === '') {
@@ -65,7 +65,7 @@ class SignInForm extends React.Component {
             if(validations.email) {
                 //pattern comparison from w3c
                 //https://www.w3.org/TR/html-markup/input.email.html#input.email.attrs.value.single
-                var valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)
+                let valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)
                 if(!valid) {
                 errors.email = true;
                 errors.isValid = false;
@@ -86,11 +86,11 @@ class SignInForm extends React.Component {
   
     render() {
         //field validation
-        var emailErrors = this.validate(this.state.email, {required:true, email:true});
-        var passwordErrors = this.validate(this.state.password, {required:true, minLength:8});
+        let emailErrors = this.validate(this.state.email, {required:true, email:true});
+        let passwordErrors = this.validate(this.state.password, {required:true, minLength:8});
 
         //button validation
-        var signInEnabled = (emailErrors.isValid && passwordErrors.isValid);
+        let signInEnabled = (emailErrors.isValid && passwordErrors.isValid);
   
         return (
             <MuiThemeProvider>

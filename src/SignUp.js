@@ -3,16 +3,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
+import Snackbar from 'material-ui/Snackbar';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import SignUpForm from './SignUpForm';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+const styles = {
+    snack: {
+        textAlign: 'center',
+    }
+}
 
 class SignUp extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {error: null};
+        this.state = {error: null, isSnackBarActive: false, spinnerDisplay: false};
 
         this.signUp = this.signUp.bind(this);
         this.loadApp = this.loadApp.bind(this);
+        this.handleTimeoutSnackbar = this.handleTimeoutSnackbar.bind(this);
     }
 
     // redirect
@@ -42,8 +52,12 @@ class SignUp extends React.Component {
     }
 
     signUp(email, password, firstName, lastName, mobile, personType, avatar) {
+        let thisComponent = this;
+        thisComponent.setState({spinnerDisplay: true}); //show loading spinner while user is being signed up
+        thisComponent.setState({isSnackbarActive: true}); //show snackbar, where spinner is located, while user is being signed up
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((firebaseUser) => {
+            thisComponent.setState({spinnerDisplay: 'hidden'}) //do not show spinner once this is completed
             firebaseUser.updateProfile({
                 email: email,
                 firstName: firstName,
@@ -54,8 +68,8 @@ class SignUp extends React.Component {
             });
 
             //create new entry in the Cloud DB (for others to reference)
-            var userRef = firebase.database().ref('users/'+firebaseUser.uid);
-            var userData = {
+            let userRef = firebase.database().ref('users/'+firebaseUser.uid);
+            let userData = {
                 email: email,
                 firstName: firstName,
                 lastName: lastName,
@@ -67,23 +81,67 @@ class SignUp extends React.Component {
             userRef.set(userData); //update entry in JOITC, return promise for chaining
         })
         .catch((error) => { //report any errors
-            console.log(error.message);
+            let errorCode = error.code;
+            let errorMessage = error.message;
+            if (errorCode === 'auth/email-already-in-use') {
+                thisComponent.setState({error: 'The email address is already in use.'});
+                thisComponent.setState({ isSnackbarActive: true });
+                thisComponent.setState({spinnerDisplay: false})
+            } else if (errorCode === 'auth/invalid-email') {
+                thisComponent.setState({error: 'The email address is invalid'});
+                thisComponent.setState({ isSnackbarActive: true });
+                thisComponent.setState({spinnerDisplay: false})
+            } else if (errorCode === 'auth/operation-not-allowed') {
+                thisComponent.setState({error: 'Unable to create an account at this time, try again later.'});
+                thisComponent.setState({ isSnackbarActive: true });
+                thisComponent.setState({spinnerDisplay: false})
+            } else if(errorCode === 'auth/weak-password') {
+                thisComponent.setState({error: 'Password is not long enough'});
+                thisComponent.setState({ isSnackbarActive: true });
+                thisComponent.setState({spinnerDisplay: false})
+            } else {
+                thisComponent.setState({error: errorMessage});
+                thisComponent.setState({ isSnackbarActive: true });
+                thisComponent.setState({spinnerDisplay: false})
+            }
         });
     }
 
+    //when an error snackbar appears, it will eventually time out and disppear
+    handleTimeoutSnackbar() {
+        this.setState({ isSnackbarActive: false });
+    }
+
     render() {
-        var content = null; //what main content to show
+        let content = null; //what main content to show
+        let snackbarContent = null; //what snackbar content to show
 
         if(!this.state.userId) { //if logged out, show signup form
             content = (<div><SignUpForm signUpCallback={this.signUp} /></div>);
         }
 
+        if(this.state.spinnerDisplay) { //show spinner when loading
+            snackbarContent = <CircularProgress />;
+          } else if(this.state.error !== undefined) { //otherwise show error message
+            snackbarContent = this.state.error;
+        }
+
         return(
+            <MuiThemeProvider>
             <div>
                 <main role="article">
                     {content}
                 </main>
+                <div role="region">
+                    <Snackbar
+                        open={this.state.isSnackbarActive}
+                        message={snackbarContent}
+                        autoHideDuration={10000}
+                        style={styles.snack}
+                        onRequestClose={this.handleTimeoutSnackbar}/>
+                </div>
             </div>
+            </MuiThemeProvider>
         );
     }
 }
