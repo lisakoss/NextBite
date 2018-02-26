@@ -1,10 +1,33 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 
+/* overall */
 body {
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: 'Roboto', sans-serif;
-  background-color: #EDEDED
+  color: #313131;
+  background:rgba(245,248,250,1);
+  /*background: linear-gradient(to right, #01B3C9, #00BDB2 85%, #00C6A1);*/
+}
+
+.container-content {
+  padding-top: 20px;
+  margin: 0 auto;
+  width: 90%;
+}
+
+h1 {
+  font-variant: small-caps;
+  font-size: 56px;
+  font-weight: 400;
+  margin-bottom: 0px;
+}
+
+/* errors */
+.has-error {
+  color: red;
+  font-size: 12px;
 }
 
 .container {
@@ -22,12 +45,20 @@ body {
 
 /* avatar */
 .avatar {
-  width:45px;
-	height:45px;
+  width:50px;
+	height:50px;
 	border-radius: 50%;
-  padding-right: 5px;
 }
 
 .avatar-field {
-  padding-top: 20px;
+  padding-top: 10px;
+}
+
+.avatar-input {
+  padding-left: 10px;
+}
+
+/* signup/signin forms */
+.form-group {
+  margin: 0;
 }
