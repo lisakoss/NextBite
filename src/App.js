@@ -98,7 +98,7 @@ class App extends React.Component {
     return (
       <MuiThemeProvider>
         <div style={{height: '100%'}} role="main">
-          <AppBar title={<span><Link to="/" className="header-link">NextBite</Link></span>}/>
+          <AppBar title={<span><Link to="/" className="header-link">NextBite</Link></span>} onLeftIconButtonClick={this.handleToggle}/>
             <div role="navigation">
 							<Link to="/link">link</Link>
 							<Link to="/link">link</Link>
@@ -107,12 +107,11 @@ class App extends React.Component {
 
           <Drawer
           docked={false}
-          width={200}
+          width={250}
           open={this.state.isDrawerOpen}
           onRequestChange={(isDrawerOpen) => this.setState({isDrawerOpen})}
           >
-          <MenuItem onClick={this.handleClose}>Menu Item</MenuItem>
-          <MenuItem onClick={this.handleClose}>Menu Item 2</MenuItem>
+            {drawerContent}
           </Drawer> 
           
 					<div role="main">
