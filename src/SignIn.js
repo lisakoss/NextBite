@@ -1,10 +1,10 @@
 import React from 'react';
 import firebase from 'firebase';
-import Snackbar from 'material-ui/Snackbar';
-import CircularProgress from 'material-ui/CircularProgress';
 
 import SignInForm from './SignInForm';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import Snackbar from 'material-ui/Snackbar';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const styles = {
     snack: {
@@ -68,10 +68,10 @@ class SignIn extends React.Component {
 
     render() {
         let content = null; //what main content to show
-        var snackbarContent = null; //what snackbar content to show
+        var snackbarContent = null //what snackbar content to show
 
         if(!this.state.userId) { //if logged out, show signup form
-            content = (<div><SignInForm signInCallback={this.signIn} /></div>);
+            content = (<div><SignInForm signInCallback={this.signIn} history={this.props.history}/></div>);
         }
         if(this.state.spinnerDisplay) { // show spinner when loading
             snackbarContent = <CircularProgress style={styles.progress}/>;
@@ -80,21 +80,19 @@ class SignIn extends React.Component {
         } 
 
         return (
-            <MuiThemeProvider>
             <div>      
-                <main role="article" className="content-container">   
+                <main role="article" className="container-content">   
                     {content}
                 </main>
                 <div role="region">
                     <Snackbar
                         open={this.state.isSnackbarActive}
-                        message={snackbarContent}
+                        message={snackbarContent || ""}
                         autoHideDuration={10000}
                         style={styles.snack}
                         onRequestClose={this.handleTimeoutSnackbar}/>
                 </div>
-            </div>  
-            </MuiThemeProvider>    
+            </div>   
         );
     }
 }

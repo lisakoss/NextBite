@@ -1,10 +1,8 @@
 import React from 'react';
 import firebase from 'firebase';
 import './index.css';
-import { Redirect } from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
 
 //A component that will sign the user out of the website
 class Logout extends React.Component {
@@ -21,8 +19,6 @@ class Logout extends React.Component {
 				this.setState({userId:user.uid}); //grabs user id
 			} else { //redirects to home page once logged out
 				this.setState({userId: null}); //null out the saved state
-                this.props.history.push('/home');
-
 			}
 		});
   }
@@ -42,15 +38,13 @@ class Logout extends React.Component {
 
   render() {
   	return(
-        <MuiThemeProvider>
-            <div>
+      <div>
 				{this.state.userId &&  /*inline conditional rendering*/
-            <div className="container-drawer">
-                <RaisedButton id="submit-button" label="sign out" primary={true} onClick={(event) => this.signOut()} />
-            </div>
+          <div className="container-drawer">
+              <RaisedButton id="submit-button" label="sign out" primary={true} onClick={(event) => this.signOut()} />
+          </div>
         }
 			</div>
-        </MuiThemeProvider>
     );
   }
 }

@@ -1,11 +1,10 @@
 import React from 'react';
-import firebase from 'firebase';
+import './index.css';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import AppBar from 'material-ui/AppBar';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 /**
  * A form for logging into a website.
@@ -39,6 +38,7 @@ class SignInForm extends React.Component {
     signIn(event) {
         event.preventDefault(); //don't submit
         this.props.signInCallback(this.state.email, this.state.password);
+        this.props.history.push('/');
     }
   
     /**
@@ -93,24 +93,19 @@ class SignInForm extends React.Component {
         let signInEnabled = (emailErrors.isValid && passwordErrors.isValid);
   
         return (
-            <MuiThemeProvider>
             <div role="article">
-                <AppBar title="NextBite" />
-                <div className="container-content">
-                    <h1>sign in</h1>
-            
-                    <form role="form" className="sign-up-form">
-                        <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
-                        <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
-                        <div>
-                            <p><RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} /></p>
-                            <p>Don't have an account yet? <a href="/signup">Sign Up!</a></p>
-                        </div>
+                <h1>sign in</h1>
+        
+                <form>
+                    <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
+                    <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
+                    <div>
+                        <RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} />
+                        <p>Don't have an account yet? <Link to="/signup">Sign Up!</Link></p>
+                    </div>
 
-                    </form>
-                </div>
+                </form>
             </div>
-            </MuiThemeProvider>
         );
     }
 }
@@ -118,6 +113,7 @@ class SignInForm extends React.Component {
 //to enforce proptype declaration
 SignInForm.propTypes = {
     signInCallback: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
 };
   
   
@@ -146,13 +142,13 @@ class ValidationErrors extends React.Component {
         return (
             <div role="region">
                 {this.props.errors.required &&
-                <span className="help-block">Required! </span>
+                <span>Required! </span>
                 }
                 {this.props.errors.email &&
-                <span className="help-block">Not an email address!</span>
+                <span>Not an email address!</span>
                 }
                 {this.props.errors.minLength &&
-                <span className="help-block">Must be at least {this.props.errors.minLength} character(s).</span>
+                <span>Must be at least {this.props.errors.minLength} character(s).</span>
                 }
             </div>
         );

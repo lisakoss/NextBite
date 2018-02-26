@@ -3,11 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import firebase from 'firebase';
-import { BrowserRouter, Route, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
-
-import SignIn from './SignIn';
-import SignUp from './SignUp';
 
 // Initialize Firebase
 var config = {
@@ -22,13 +19,13 @@ firebase.initializeApp(config);
 
 // Render the application view
 ReactDOM.render(
-    <BrowserRouter>
-        <div>
-            <Route exact path='/home' component={App} />
-            <Route exact path='/signin' component={SignIn} />
-            <Route exact path='/signup' component={SignUp} />
-        </div>
-    </BrowserRouter>, 
+    <Router>
+    <div>
+        <Switch>
+            <Route path="/" component={App}/>
+        </Switch>
+    </div>
+  </Router>, 
     
     document.getElementById('root')
 );

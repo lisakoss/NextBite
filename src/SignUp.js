@@ -1,13 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
 import firebase from 'firebase';
-import { Redirect } from 'react-router-dom';
-import Snackbar from 'material-ui/Snackbar';
-import CircularProgress from 'material-ui/CircularProgress';
 
 import SignUpForm from './SignUpForm';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import Snackbar from 'material-ui/Snackbar';
+import CircularProgress from 'material-ui/CircularProgress';
 
 const styles = {
     snack: {
@@ -24,13 +22,7 @@ class SignUp extends React.Component {
         this.state = {error: null, isSnackBarActive: false, spinnerDisplay: false};
 
         this.signUp = this.signUp.bind(this);
-        this.loadApp = this.loadApp.bind(this);
         this.handleTimeoutSnackbar = this.handleTimeoutSnackbar.bind(this);
-    }
-
-    // redirect
-    loadApp() {
-        this.props.history.push('/home');
     }
 
     //Lifecycle callback executed when the component appears on the screen.
@@ -120,31 +112,29 @@ class SignUp extends React.Component {
         let snackbarContent = null; //what snackbar content to show
 
         if(!this.state.userId) { //if logged out, show signup form
-            content = (<div><SignUpForm signUpCallback={this.signUp} /></div>);
+            content = (<div><SignUpForm signUpCallback={this.signUp} history={this.props.history}/></div>);
         }
 
         if(this.state.spinnerDisplay) { //show spinner when loading
             snackbarContent = <CircularProgress style={styles.progress}/>;
-          } else if(this.state.error !== undefined) { //otherwise show error message
+        } else if(this.state.error !== undefined) { //otherwise show error message
             snackbarContent = this.state.error;
         }
 
         return(
-            <MuiThemeProvider>
             <div>
-                <main role="article">
+                <main role="article" className="container-content">
                     {content}
                 </main>
                 <div role="region">
                     <Snackbar
-                        open={this.state.isSnackbarActive}
-                        message={snackbarContent}
+                        open={this.state.isSnackBarActive}
+                        message={snackbarContent || ""}
                         autoHideDuration={10000}
                         style={styles.snack}
                         onRequestClose={this.handleTimeoutSnackbar}/>
                 </div>
             </div>
-            </MuiThemeProvider>
         );
     }
 }

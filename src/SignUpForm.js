@@ -1,13 +1,12 @@
 import React from 'react';
 import './index.css';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Avatar from 'material-ui/Avatar';
-import AppBar from 'material-ui/AppBar';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const styles = {
     block: {
@@ -59,6 +58,7 @@ class SignUpForm extends React.Component {
     signUp(event) {
         event.preventDefault(); //don't submit
         this.props.signUpCallback(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.mobile, this.state.personType, this.state.avatar);
+        this.props.history.push('/');
     }
 
     /**
@@ -144,48 +144,41 @@ class SignUpForm extends React.Component {
         let signUpEnabled = (emailErrors.isValid && passwordErrors.isValid && firstNameErrors.isValid && lastNameErrors.isValid && passwordConfirmErrors.isValid && mobileErrors.isValid && typeErrors.isValid);
         
         return (
-            <MuiThemeProvider>
-                <div role="article">
-                    <AppBar title="NextBite" />
-                    <div className="container-content">
-                        <h1>sign up</h1>
-                        
-                        <form>
-                            <ValidatedInput field="email" type="email" floatingLabelText="Email" changeCallback={this.handleChange} errors={emailErrors} />
-                            <ValidatedInput field="firstName" type="text" floatingLabelText="First Name" changeCallback={this.handleChange} errors={firstNameErrors} />
-                            <ValidatedInput field="lastName" type="text" floatingLabelText="Last Name" changeCallback={this.handleChange} errors={lastNameErrors} />
-                            <ValidatedInput field="password" type="password" floatingLabelText="Password" changeCallback={this.handleChange}errors={passwordErrors} />
-                            <ValidatedInput field="passwordConfirm" type="password" floatingLabelText="Confirm Password" changeCallback={this.handleChange} errors={passwordConfirmErrors} />
-                            <ValidatedInput field="mobile" type="text" floatingLabelText="Mobile Phone Number" changeCallback={this.handleChange} errors={mobileErrors} />
-                            <p>Are you a...</p>
-                            <RadioButtonGroup name="personType" style={styles.block} onChange={this.handleChange} errors={typeErrors}>
-                                <RadioButton
-                                    value="volunteer"
-                                    label="Volunteer"
-                                    field="type"
-                                    style={styles.radioButton}
-                                /><RadioButton
-                                    value="Vendor"
-                                    label="Vendor"
-                                    field="type"
-                                    style={styles.radioButton}
-                                />
-                            </RadioButtonGroup>
+            <div role="article">
+                <h1>sign up</h1>
+                
+                <form>
+                    <ValidatedInput field="email" type="email" floatingLabelText="Email" changeCallback={this.handleChange} errors={emailErrors} />
+                    <ValidatedInput field="firstName" type="text" floatingLabelText="First Name" changeCallback={this.handleChange} errors={firstNameErrors} />
+                    <ValidatedInput field="lastName" type="text" floatingLabelText="Last Name" changeCallback={this.handleChange} errors={lastNameErrors} />
+                    <ValidatedInput field="password" type="password" floatingLabelText="Password" changeCallback={this.handleChange}errors={passwordErrors} />
+                    <ValidatedInput field="passwordConfirm" type="password" floatingLabelText="Confirm Password" changeCallback={this.handleChange} errors={passwordConfirmErrors} />
+                    <ValidatedInput field="mobile" type="text" floatingLabelText="Mobile Phone Number" changeCallback={this.handleChange} errors={mobileErrors} />
+                    <p>Are you a...</p>
+                    <RadioButtonGroup name="personType" style={styles.block} onChange={this.handleChange} errors={typeErrors}>
+                        <RadioButton
+                            value="volunteer"
+                            label="Volunteer"
+                            style={styles.radioButton}
+                        /><RadioButton
+                            value="Vendor"
+                            label="Vendor"
+                            style={styles.radioButton}
+                        />
+                    </RadioButtonGroup>
 
-                            <div className="avatar-field">         
-                                {avatar}
+                    <div className="avatar-field">         
+                        {avatar}
 
-                                <TextField className="avatar-input" id="avatar" name="avatar" type="text" hintText="http://www.test.com/picture.jpg" floatingLabelText="Avatar Image URL" floatingLabelFixed={true} onChange={this.handleChange} /><br />
-                            </div>
-                            
-                            <div>
-                                <p><RaisedButton id="submit-button" label="sign up" primary={true} disabled={!signUpEnabled} onClick={(event) => this.signUp(event)} /></p>
-                                <p>Already have an account? <a href="/signin">Sign In!</a></p>
-                            </div>
-                        </form>
+                        <TextField className="avatar-input" id="avatar" name="avatar" type="text" hintText="http://www.test.com/picture.jpg" floatingLabelText="Avatar Image URL" floatingLabelFixed={true} onChange={this.handleChange} /><br />
                     </div>
-                </div>
-            </MuiThemeProvider>
+                    
+                    <div>
+                        <RaisedButton id="submit-button" label="sign up" primary={true} disabled={!signUpEnabled} onClick={(event) => this.signUp(event)} />
+                        <p>Already have an account? <Link to="/signin">Sign In!</Link></p>
+                    </div>
+                </form>
+            </div>
         );
     }
 }
@@ -193,6 +186,7 @@ class SignUpForm extends React.Component {
 //to enforce proptype declaration
 SignUpForm.propTypes = {
     signUpCallback: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
 };
 
 //A component that displays an input form with validation styling
@@ -219,19 +213,19 @@ class ValidationErrors extends React.Component {
         return (
             <div role="region">
                 {this.props.errors.required &&
-                <span className="help-block">Required! </span>
+                <span>Required! </span>
                 }
                 {this.props.errors.email &&
-                <span className="help-block">Not an email address.</span>
+                <span>Not an email address.</span>
                 }
                 {this.props.errors.minLength &&
-                <span className="help-block">Must be at least {this.props.errors.minLength} character(s).</span>
+                <span>Must be at least {this.props.errors.minLength} character(s).</span>
                 }
                 {this.props.errors.match &&
-                <span className="help-block">Your passwords do not match.</span>
+                <span>Your passwords do not match.</span>
                 }
                 {this.props.errors.phone &&
-                <span className="help-block">That is not a valid phone number.</span>
+                <span>That is not a valid phone number.</span>
                 }
             </div>
         );
