@@ -67,29 +67,27 @@ export class Container extends React.Component {
         const pos = {lat: 47.7204208, lng: -122.2885376} // where location marker goes
 
         return (
-            <MuiThemeProvider>
-                <div className="container">
-                    <div className="map-info">hi</div>
-                    <div style={style}>
-                        <Map google={this.props.google}
-                             onClick={this.onMapClick}>
-                            <Marker onClick={this.onMarkerClick}
-                                    name={'Current Location'}/>
-                            <Marker onClick={this.onMarkerClick}
-                                    name={'Dolores park'}
-                                    position={pos}/>
-                            <InfoWindow
-                                marker={this.state.activeMarker}
-                                visible={this.state.showingInfoWindow}
-                                onClose={this.onInfoWindowClose}>
-                                <div>
-                                    <h1>{this.state.selectedPlace.name}</h1>
-                                </div>
-                            </InfoWindow>
-                        </Map>
-                    </div>
+            <div className="container">
+                <div className="map-info">hi</div>
+                <div style={style}>
+                    <Map google={this.props.google}
+                            onClick={this.onMapClick}>
+                        <Marker onClick={this.onMarkerClick}
+                                name={'Current Location'}/>
+                        <Marker onClick={this.onMarkerClick}
+                                name={'Dolores park'}
+                                position={pos}/>
+                        <InfoWindow
+                            marker={this.state.activeMarker}
+                            visible={this.state.showingInfoWindow}
+                            onClose={this.onInfoWindowClose}>
+                            <div>
+                                <h1>{this.state.selectedPlace.name}</h1>
+                            </div>
+                        </InfoWindow>
+                    </Map>
                 </div>
-            </MuiThemeProvider>
+            </div>
         );
     }
 }

@@ -4,7 +4,7 @@ import './index.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types'; 
-import ReactDOMServer from 'react-dom/server'
+import ReactDOMServer from 'react-dom/server';
 
 class InfoWindow extends React.Component {
     componentDidUpdate(prevProps, prevState) {

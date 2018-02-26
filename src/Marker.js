@@ -6,6 +6,14 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types'; 
 
 export class Marker extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            map: []
+        }
+    }
+
     componentDidUpdate(prevProps) {
         if ((this.props.map !== prevProps.map) || (this.props.position !== prevProps.position)) {
           // The relevant props have changed
@@ -20,21 +28,23 @@ export class Marker extends React.Component {
     }
 
     renderMarker() {
-        let {map, google, position, mapCenter} = this.props;
-    
-        let pos = position || mapCenter;
-        position = new google.maps.LatLng(pos.lat, pos.lng);
+        if (this.props && this.props.google) {
+            let {map, google, position, mapCenter} = this.props;
+        
+            let pos = position || mapCenter;
+            position = new google.maps.LatLng(pos.lat, pos.lng);
 
-        const pref = {
-            map: map,
-            position: position
-        };
-        this.marker = new google.maps.Marker(pref);
+            const pref = {
+                map: map,
+                position: position
+            };
+            this.marker = new google.maps.Marker(pref);
 
-        const evtNames = ['click', 'mouseover'];
-        evtNames.forEach(e => {
-            this.marker.addListener(e, this.handleEvent(e));
-        })
+            const evtNames = ['click', 'mouseover'];
+            evtNames.forEach(e => {
+                this.marker.addListener(e, this.handleEvent(e));
+            })
+        }
     }
 
     handleEvent(evtName) {
