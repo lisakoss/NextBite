@@ -7,7 +7,7 @@ import Home from './Home';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Logout from './Logout';
-import Map from './Map';
+import MapContainer from './MapContainer';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
@@ -120,7 +120,7 @@ class App extends React.Component {
               <Route exact path="/" component={Home}/>
               <Route path="/signup" component={SignUp}/>
               <Route path="/signin" component={SignIn}/>
-              <Route path="/map" component={Map}/>
+              <Route path="/map" component={MapContainer}/>
             </Switch>
 					</div>
         </div>
