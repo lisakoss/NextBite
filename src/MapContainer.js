@@ -8,7 +8,6 @@ import Marker from './Marker';
 import InfoWindow from './InfoWindow';
 
 import GoogleApiComponent from 'google-maps-react/dist/GoogleApiComponent';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 export class Container extends React.Component {
     constructor(props) {
@@ -68,7 +67,8 @@ export class Container extends React.Component {
 
         return (
             <div className="container">
-                <div className="map-info">hi</div>
+                <div className="map-info">hi
+                </div>
                 <div style={style}>
                     <Map google={this.props.google}
                             onClick={this.onMapClick}>
