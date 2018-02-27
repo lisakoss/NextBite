@@ -5,8 +5,9 @@ import Logout from './Logout'
 class Home extends React.Component {
     render() {
         return (
-        <div><p>home page here</p>
-        <Logout/></div>
+        <div>
+            <p>home page here</p>
+        </div>
     );
   }
 }

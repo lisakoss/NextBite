@@ -24,6 +24,12 @@ h1 {
   margin-bottom: 0px;
 }
 
+h2 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
 /* errors */
 .has-error {
   color: red;
@@ -32,6 +38,22 @@ h1 {
 
 .container {
   overflow: hidden;
+}
+
+/* appbar */
+.inlineList {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start; 
+  list-style: none;
+  padding: 0;
+  white-space: nowrap;
+  margin: 0px;
+}
+
+li {
+  padding: 8px;
+  margin-top: 15px;
 }
 
 /* map */
@@ -44,12 +66,6 @@ h1 {
 }
 
 /* avatar */
-.avatar {
-  width:50px;
-	height:50px;
-	border-radius: 50%;
-}
-
 .avatar-field {
   padding-top: 10px;
 }
@@ -61,4 +77,58 @@ h1 {
 /* signup/signin forms */
 .form-group {
   margin: 0;
+}
+
+
+/* drawer */
+.nav-container {
+  text-align: center;
+}
+
+.links-title {
+  clear: both;
+  text-align: left;
+  margin: 10px 0 10px 15px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.nav-links a {
+  color: #757575;
+  text-decoration: none;
+  font-size: 14px;
+  padding-left: 20px;
+}
+
+.drawer-title {
+  margin: 20px 0 10px 15px;
+  font-size: 20px;
+}
+
+.drawer-displayname {
+  margin-top: -20px;
+}
+
+.profile-image {
+  width: 100px;
+}
+
+.menu-items {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+/* #### Mobile Phones Portrait or Landscape #### */
+@media screen and (max-width: 640px){
+  /* some CSS here */
+  .drawerWidth {
+    width: 640px;
+  }
+}
+
+/* Other Devices */
+@media screen and (min-width: 641px){
+  .drawerWidth {
+    width: 280px;
+  }
 }
