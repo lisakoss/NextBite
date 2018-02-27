@@ -77,7 +77,7 @@ class App extends React.Component {
       } 
 
       if(this.state.avatar !== '') {
-        profileImgNav = <Avatar src={this.state.avatar} />
+        profileImgNav = <Avatar style={{width: '30px', height: '30px'}} src={this.state.avatar} />
       } else {
         profileImgNav = <Avatar style={{width: '30px', height: '30px', fontSize: '14px'}}>{this.state.firstName.charAt(0).toUpperCase()}</Avatar>
       } 
@@ -115,10 +115,10 @@ class App extends React.Component {
 			drawerContent = (
         <div>
           <div className="nav-container">
-            <p className="profile-drawer">
+            <span className="profile-drawer">
               {profileImgDrawer}
-            </p>
-            <p className="links-title"><h2>Quick Links</h2></p>
+            </span>
+            <h2 className="links-title">Quick Links</h2>
           </div>
           <div className="nav-links">
             {userTypeDrawer}

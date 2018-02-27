@@ -6,6 +6,9 @@ import firebase from 'firebase';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
+import SignIn from './SignIn';
+import SignUp from './SignUp';
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyAS-lGtWLQDefNPadgIrUqM4weNwCFrsSo",
@@ -23,6 +26,8 @@ ReactDOM.render(
       <div>
           <Switch>
               <Route path="/" component={App}/>
+              <Route path="/signup" component={SignUp}/>
+              <Route path="/signin" component={SignIn}/>
           </Switch>
       </div>
     </Router>, 

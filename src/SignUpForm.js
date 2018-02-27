@@ -58,7 +58,7 @@ class SignUpForm extends React.Component {
     signUp(event) {
         event.preventDefault(); //don't submit
         this.props.signUpCallback(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.mobile, this.state.personType, this.state.avatar);
-        this.props.history.push('/');
+        //this.props.history.push('/path')
     }
 
     /**
@@ -161,7 +161,7 @@ class SignUpForm extends React.Component {
                             label="Volunteer"
                             style={styles.radioButton}
                         /><RadioButton
-                            value="Vendor"
+                            value="vendor"
                             label="Vendor"
                             style={styles.radioButton}
                         />
@@ -186,7 +186,6 @@ class SignUpForm extends React.Component {
 //to enforce proptype declaration
 SignUpForm.propTypes = {
     signUpCallback: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
 };
 
 //A component that displays an input form with validation styling
