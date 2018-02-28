@@ -43,7 +43,7 @@ class Logout extends React.Component {
       <div>
 				{this.state.userId &&  /*inline conditional rendering*/
           <div className="container-drawer">
-            <RaisedButton id="submit-button" label="sign out" icon={<Exit color={white} style={{width:'20px'}}/>} primary={true} onClick={(event) => this.signOut()}/>
+            <RaisedButton id="submit-button" label="sign out" overlayStyle={{backgroundColor: '#244B65'}} icon={<Exit color={white} style={{width:'20px'}}/>} primary={true} onClick={(event) => this.signOut()}/>
           </div>
         }
 			</div>

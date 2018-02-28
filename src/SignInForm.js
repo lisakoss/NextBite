@@ -1,9 +1,6 @@
 import React from 'react';
-import firebase from 'firebase';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -99,11 +96,11 @@ class SignInForm extends React.Component {
                 <div className="container-content">
                     <h1>sign in</h1>
             
-                    <form role="form" className="sign-up-form">
+                    <form className="sign-up-form">
                         <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
                         <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
                         <div>
-                            <RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} />
+                            <RaisedButton backgroundColor='#244B65' labelColor='#ffffff' className="password-signin" id="submit-button" label="sign in" disabled={!signInEnabled} onClick={(event) => this.signIn(event)} />
                             <p>Don't have an account yet? <a href="/signup">Sign Up!</a></p>
                         </div>
 
@@ -133,6 +130,8 @@ class ValidatedInput extends React.Component {
                 id={this.props.field}
                 type={this.props.type}
                 name={this.props.field}
+                underlineFocusStyle={{borderColor: '#244B65'}} 
+                floatingLabelFocusStyle={{color: '#244B65'}} 
                 />
                 <ValidationErrors errors={this.props.errors} />
             </div>

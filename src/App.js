@@ -16,7 +16,6 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
-import { cyan500 } from 'material-ui/styles/colors';
 
 class App extends React.Component {
   constructor(props){
@@ -90,7 +89,7 @@ class App extends React.Component {
         );
         userTypeNav = (
           <div className="appbar">
-            <ul className="inlineList">
+            <ul className="inline-list">
               <li><Link to="/map">Rescue Food</Link></li>
               <li><Link to="">Pending Rescues</Link></li>
               <li style={{marginTop: '10px'}}><Link to={this.state.userId !== null ? "/profile/" + this.state.userId : "/signin"}>{this.state.userId !== null ? this.state.firstName : 'Login'} <span className="profile-nav">{profileImgNav}</span></Link></li>
@@ -104,10 +103,12 @@ class App extends React.Component {
           </div>
         );
         userTypeNav = (
-          <div>
-            <Link to="">Donate Food</Link>
-            <Link to="">Pending Donations</Link>
-            <Link to={this.state.userId !== null ? "/profile/" + this.state.userId : "/signin"}>{this.state.userId !== null ? this.state.firstName : 'Login'} <span className="profile-nav">{profileImgNav}</span></Link>
+          <div className="appbar">
+            <ul className="inline-list">
+              <li><Link to="">Donate Food</Link></li>
+              <li><Link to="">Pending Donations</Link></li>
+              <li><Link to={this.state.userId !== null ? "/profile/" + this.state.userId : "/signin"}>{this.state.userId !== null ? this.state.firstName : 'Login'} <span className="profile-nav">{profileImgNav}</span></Link></li>
+            </ul>
           </div>
         );
       }
@@ -120,12 +121,12 @@ class App extends React.Component {
             </span>
             <h2 className="links-title">Quick Links</h2>
           </div>
-          <div className="nav-links">
+          <div className="drawer-links">
             {userTypeDrawer}
             <MenuItem onClick={this.handleClose} className="menu-items"><Link to="">Manage Account</Link></MenuItem>
             <div className="nav-container">
               <br/>
-              <Logout/>
+              <Logout />
             </div>
           </div>
         </div>
@@ -135,13 +136,12 @@ class App extends React.Component {
           <span className="drawer-displayname">{this.state.firstName} {this.state.lastName}</span>
           <Link style={{display: 'inline-flex', verticalAlign: 'middle'}} to={"/profile/" + this.state.userId}>
             <IconButton tooltip="go to profile">
-              <FontIcon className="material-icons" color={cyan500}>arrow_forward</FontIcon>
+              <FontIcon className="material-icons" color={'#6E98A7'}>arrow_forward</FontIcon>
             </IconButton>
           </Link>
-        </div>)
-      ;
+        </div>);
 		} else {
-			drawerContent = (<div role="navigation" className="nav-container"><span>You must <Link to="/signin">sign in</Link> or <Link to="/signup">sign up</Link> to view this content.</span></div>);
+			drawerContent = (<div role="navigation" className="nav-container loggedout"><span>You must <Link to="/signin">sign in</Link> or <Link to="/signup">sign up</Link> to view this content.</span></div>);
     }
 
     if(window.innerWidth  <= 640) {
@@ -149,10 +149,11 @@ class App extends React.Component {
     } else {
       drawerWidth = 250;
     }
+
     return (
       <MuiThemeProvider>
         <div style={{height: '100%'}} role="main">
-    <AppBar title={<span><Link to="/" className="header-link">NextBite</Link></span>} onLeftIconButtonClick={this.handleToggle} children={userTypeNav}/>
+          <AppBar style={{backgroundColor: '#6E98A7'}} title={<span><Link to="/" className="appname-link">NEXTBITE</Link></span>} onLeftIconButtonClick={this.handleToggle} children={userTypeNav}/>
 
           <Drawer
           docked={false}

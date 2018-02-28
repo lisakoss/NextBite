@@ -1,14 +1,18 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Lato');
 
 /* overall */
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #313131;
-  background:rgba(245,248,250,1);
+  background: #EDEDED;
   /*background: linear-gradient(to right, #01B3C9, #00BDB2 85%, #00C6A1);*/
+}
+
+a {
+  color: #A4A7B4;
 }
 
 .container-content {
@@ -41,7 +45,7 @@ h2 {
 }
 
 /* appbar */
-.inlineList {
+.inline-list {
   display: flex;
   flex-direction: row;
   justify-content: flex-start; 
@@ -52,8 +56,25 @@ h2 {
 }
 
 li {
-  padding: 8px;
+  padding: 8px 15px 8px 15px;
   margin-top: 15px;
+}
+
+li a {
+  text-decoration: none;
+  color: #244B65;
+  font-size: 14px;
+}
+
+.appname-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: 100;
+}
+
+.profile-nav {
+  margin: 16px 0 0 6px;
 }
 
 /* map */
@@ -68,6 +89,7 @@ li {
 /* avatar */
 .avatar-field {
   padding-top: 10px;
+  padding-bottom: 20px;
 }
 
 .avatar-input {
@@ -79,6 +101,9 @@ li {
   margin: 0;
 }
 
+.password-signin {
+  margin-top: 20px;
+}
 
 /* drawer */
 .nav-container {
@@ -93,7 +118,7 @@ li {
   letter-spacing: 3px;
 }
 
-.nav-links a {
+.drawer-links a {
   color: #757575;
   text-decoration: none;
   font-size: 14px;
@@ -116,6 +141,10 @@ li {
 .menu-items {
   padding-top: 5px !important;
   padding-bottom: 5px !important;
+}
+
+.loggedout {
+  margin-top: 20px;
 }
 
 /* #### Mobile Phones Portrait or Landscape #### */
