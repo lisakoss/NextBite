@@ -1,14 +1,18 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Lato');
 
 /* overall */
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #313131;
-  background:rgba(245,248,250,1);
+  background: #EDEDED;
   /*background: linear-gradient(to right, #01B3C9, #00BDB2 85%, #00C6A1);*/
+}
+
+a {
+  color: #A4A7B4;
 }
 
 .container-content {
@@ -24,6 +28,12 @@ h1 {
   margin-bottom: 0px;
 }
 
+h2 {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
 /* errors */
 .has-error {
   color: red;
@@ -32,6 +42,39 @@ h1 {
 
 .container {
   overflow: hidden;
+}
+
+/* appbar */
+.inline-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start; 
+  list-style: none;
+  padding: 0;
+  white-space: nowrap;
+  margin: 0px;
+}
+
+li {
+  padding: 8px 15px 8px 15px;
+  margin-top: 15px;
+}
+
+li a {
+  text-decoration: none;
+  color: #244B65;
+  font-size: 14px;
+}
+
+.appname-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: 100;
+}
+
+.profile-nav {
+  margin: 16px 0 0 6px;
 }
 
 /* map */
@@ -44,14 +87,9 @@ h1 {
 }
 
 /* avatar */
-.avatar {
-  width:50px;
-	height:50px;
-	border-radius: 50%;
-}
-
 .avatar-field {
   padding-top: 10px;
+  padding-bottom: 20px;
 }
 
 .avatar-input {
@@ -61,4 +99,65 @@ h1 {
 /* signup/signin forms */
 .form-group {
   margin: 0;
+}
+
+.password-signin {
+  margin-top: 20px;
+}
+
+/* drawer */
+.nav-container {
+  text-align: center;
+}
+
+.links-title {
+  clear: both;
+  text-align: left;
+  margin: 20px 0 10px 15px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.drawer-links a {
+  color: #757575;
+  text-decoration: none;
+  font-size: 14px;
+  padding-left: 20px;
+}
+
+.drawer-title {
+  margin: 20px 0 10px 15px;
+  font-size: 20px;
+}
+
+.drawer-displayname {
+  margin-top: -20px;
+}
+
+.profile-image {
+  width: 100px;
+}
+
+.menu-items {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+.loggedout {
+  margin-top: 20px;
+}
+
+/* #### Mobile Phones Portrait or Landscape #### */
+@media screen and (max-width: 640px){
+  /* some CSS here */
+  .drawerWidth {
+    width: 640px;
+  }
+}
+
+/* Other Devices */
+@media screen and (min-width: 641px){
+  .drawerWidth {
+    width: 280px;
+  }
 }

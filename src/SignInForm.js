@@ -1,7 +1,5 @@
 import React from 'react';
-import './index.css';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -21,6 +19,7 @@ class SignInForm extends React.Component {
 
         //function binding
         this.handleChange = this.handleChange.bind(this);
+        //this.signIn = this.signIn.bind(this);
     }
   
     //update state for specific field
@@ -38,7 +37,7 @@ class SignInForm extends React.Component {
     signIn(event) {
         event.preventDefault(); //don't submit
         this.props.signInCallback(this.state.email, this.state.password);
-        this.props.history.push('/');
+        //this.props.history.push('/path')
     }
   
     /**
@@ -94,17 +93,19 @@ class SignInForm extends React.Component {
   
         return (
             <div role="article">
-                <h1>sign in</h1>
-        
-                <form>
-                    <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
-                    <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
-                    <div>
-                        <RaisedButton id="submit-button" label="sign in" primary={true} disabled={!signInEnabled} onClick={(event) => this.signIn(event)} />
-                        <p>Don't have an account yet? <Link to="/signup">Sign Up!</Link></p>
-                    </div>
+                <div className="container-content">
+                    <h1>sign in</h1>
+            
+                    <form className="sign-up-form">
+                        <ValidatedInput field="email" type="email" floatingLabelText="your email address" changeCallback={this.handleChange} errors={emailErrors} />
+                        <ValidatedInput field="password" type="password" floatingLabelText="your password" changeCallback={this.handleChange} errors={passwordErrors} />
+                        <div>
+                            <RaisedButton backgroundColor='#244B65' labelColor='#ffffff' className="password-signin" id="submit-button" label="sign in" disabled={!signInEnabled} onClick={(event) => this.signIn(event)} />
+                            <p>Don't have an account yet? <a href="/signup">Sign Up!</a></p>
+                        </div>
 
-                </form>
+                    </form>
+                </div>
             </div>
         );
     }
@@ -113,7 +114,7 @@ class SignInForm extends React.Component {
 //to enforce proptype declaration
 SignInForm.propTypes = {
     signInCallback: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
+    //history: PropTypes.object.isRequired,
 };
   
   
@@ -129,6 +130,8 @@ class ValidatedInput extends React.Component {
                 id={this.props.field}
                 type={this.props.type}
                 name={this.props.field}
+                underlineFocusStyle={{borderColor: '#244B65'}} 
+                floatingLabelFocusStyle={{color: '#244B65'}} 
                 />
                 <ValidationErrors errors={this.props.errors} />
             </div>
@@ -142,13 +145,13 @@ class ValidationErrors extends React.Component {
         return (
             <div role="region">
                 {this.props.errors.required &&
-                <span>Required! </span>
+                <span className="help-block">Required! </span>
                 }
                 {this.props.errors.email &&
-                <span>Not an email address!</span>
+                <span className="help-block">Not an email address!</span>
                 }
                 {this.props.errors.minLength &&
-                <span>Must be at least {this.props.errors.minLength} character(s).</span>
+                <span className="help-block">Must be at least {this.props.errors.minLength} character(s).</span>
                 }
             </div>
         );

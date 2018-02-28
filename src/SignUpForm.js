@@ -58,7 +58,7 @@ class SignUpForm extends React.Component {
     signUp(event) {
         event.preventDefault(); //don't submit
         this.props.signUpCallback(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.mobile, this.state.personType, this.state.avatar);
-        this.props.history.push('/');
+        //this.props.history.push('/path')
     }
 
     /**
@@ -161,7 +161,7 @@ class SignUpForm extends React.Component {
                             label="Volunteer"
                             style={styles.radioButton}
                         /><RadioButton
-                            value="Vendor"
+                            value="vendor"
                             label="Vendor"
                             style={styles.radioButton}
                         />
@@ -170,11 +170,11 @@ class SignUpForm extends React.Component {
                     <div className="avatar-field">         
                         {avatar}
 
-                        <TextField className="avatar-input" id="avatar" name="avatar" type="text" hintText="http://www.test.com/picture.jpg" floatingLabelText="Avatar Image URL" floatingLabelFixed={true} onChange={this.handleChange} /><br />
+                        <TextField underlineFocusStyle={{borderColor: '#244B65'}} floatingLabelFocusStyle={{color: '#244B65'}} className="avatar-input" id="avatar" name="avatar" type="text" hintText="http://www.test.com/picture.jpg" floatingLabelText="Avatar Image URL" floatingLabelFixed={true} onChange={this.handleChange} /><br />
                     </div>
                     
                     <div>
-                        <RaisedButton id="submit-button" label="sign up" primary={true} disabled={!signUpEnabled} onClick={(event) => this.signUp(event)} />
+                        <RaisedButton backgroundColor='#244B65' labelColor='#ffffff' id="submit-button" label="sign up" disabled={!signUpEnabled} onClick={(event) => this.signUp(event)} />
                         <p>Already have an account? <Link to="/signin">Sign In!</Link></p>
                     </div>
                 </form>
@@ -186,7 +186,6 @@ class SignUpForm extends React.Component {
 //to enforce proptype declaration
 SignUpForm.propTypes = {
     signUpCallback: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
 };
 
 //A component that displays an input form with validation styling
@@ -201,6 +200,8 @@ class ValidatedInput extends React.Component {
                     id={this.props.field}
                     type={this.props.type}
                     name={this.props.field}
+                    underlineFocusStyle={{borderColor: '#244B65'}} 
+                    floatingLabelFocusStyle={{color: '#244B65'}} 
                 />
                <ValidationErrors errors={this.props.errors}/>
             </div>
