@@ -12,12 +12,11 @@ import TimePicker from 'material-ui/TimePicker';
 
 const styles = {
     customWidth: {
-      width: 200,
+      width: 300,
     }
 };
 
 export class ListingsForm extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -32,7 +31,11 @@ export class ListingsForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleDropDown = (event, index, weight) => {
+    handleLocationDropDown = (event, index, location) => {
+        this.setState({location});
+    }
+
+    handleWeightDropDown = (event, index, weight) => {
         this.setState({weight});
     }
     
@@ -92,26 +95,44 @@ export class ListingsForm extends React.Component {
 
     render() { 
         //field validation
-        let locationErrors = this.validate(this.state.location, {required: true, minLength: 1});
         // ADD CHECKING ERROR FOR NUMBER INPUT ONLY!!!!!
         let boxesErrors = this.validate(this.state.boxes, {required: true, minLength: 1});
         let tagErrors = this.validate(this.state.tags, {required: true, minLength: 1});
-        let submitEnabled = (locationErrors.isValid && boxesErrors && tagErrors)
+        let submitEnabled = (boxesErrors && tagErrors)
         return (
             <div role="article">
                 <div className="container-content">
                     <h1>create listing</h1>
 
                     <form>
-                        <ValidatedInput field="location" type="text" floatingLabelText="Your Location" changeCallback={this.handleChange} errors={locationErrors} />
+                        <p>Your Location:</p>
+                        <DropDownMenu name="location" value={this.state.location} onChange={this.handleLocationDropDown} style={styles.customWidth} autoWidth={false} maxHeight={200}>
+                            <MenuItem value={"Ballard Farmers Market, 47.6450099, -122.3486234"} primaryText="Ballard Farmers Market" />
+                            <MenuItem value={"Capitol Hill Farmers Market, 47.6163942, -122.3231928"} primaryText="Capitol Hill Farmers Market" />
+                            <MenuItem value={"City Hall Farmers Market, 47.6097185, -122.3597025"} primaryText="City Hall Farmers Market" />
+                            <MenuItem value={"Columbia City Farmers Market, 47.5663073, -122.3465634"} primaryText="Columbia City Farmers Market" />
+                            <MenuItem value={"Denny Regrade Farmers Market, 47.6097158, -122.3597025"} primaryText="Denny Regrade Farmers Market" />
+                            <MenuItem value={"Fremont Farmers Market, 47.6463977, -122.3474217,13"} primaryText="Fremont Farmers Market" />
+                            <MenuItem value={"Lake City Farmers Market, 47.71992, -122.3003247"} primaryText="Lake City Farmers Market" />
+                            <MenuItem value={"Madrona Farmers Market, 47.612343, -122.2977045"} primaryText="Madrona Farmers Market" />
+                            <MenuItem value={"Magnolia Farmers Market, 47.646629, -122.3635579"} primaryText="Magnolia Farmers Market" />
+                            <MenuItem value={"Phinney Farmers Market, 47.67763, -122.3562657"} primaryText="Phinney Farmers Market" />
+                            <MenuItem value={"Pike Place Market, 47.6097199, -122.3465703"} primaryText="Pike Place Market" />
+                            <MenuItem value={"Queen Anne Farmers Market, 47.637149, -122.3592802"} primaryText="Queen Anne Farmers Market" />
+                            <MenuItem value={"Rainier Farmers Market, 47.5663073,-122.3465634"} primaryText="Rainier Farmers Market" />
+                            <MenuItem value={"South Lake Union Farmers Market, 47.6040411, -122.3366638"} primaryText="South Lake Union Farmers Market" />
+                            <MenuItem value={"University District Farmers Market, 47.6656392, -122.3152575"} primaryText="University District Farmers Market" />
+                            <MenuItem value={"Wallingford Farmers Market, 47.6623941, -122.3407796"} primaryText="Wallingford Farmers Market" />
+                            <MenuItem value={"West Seattle Farmers Market, 47.5612161, -122.3887488"} primaryText="West Seattle Farmers Market" />
+                        </DropDownMenu>
                         <ValidatedInput field="boxes" type="text" floatingLabelText="Number of Boxes" changeCallback={this.handleChange} errors={boxesErrors} />
                         <p>Total Weight of All Boxes:</p>
-                        <DropDownMenu name="weight" value={this.state.weight} onChange={this.handleDropDown} style={styles.customWidth} autoWidth={false}>
-                            <MenuItem value={1} primaryText="< 1 lbs" />
-                            <MenuItem value={2} primaryText="1-3 lbs" />
-                            <MenuItem value={3} primaryText="5-7 lbs" />
-                            <MenuItem value={4} primaryText="7-10 lbs" />
-                            <MenuItem value={5} primaryText="> 10 lbs" />
+                        <DropDownMenu name="weight" value={this.state.weight} onChange={this.handleWeightDropDown} style={styles.customWidth} autoWidth={false}>
+                            <MenuItem value={"< 1 lbs"} primaryText="< 1 lbs" />
+                            <MenuItem value={"1-3 lbs"} primaryText="1-3 lbs" />
+                            <MenuItem value={"5-7 lbs"} primaryText="5-7 lbs" />
+                            <MenuItem value={"7-10 lbs"} primaryText="7-10 lbs" />
+                            <MenuItem value={"> 10 lbs"} primaryText="> 10 lbs" />
                         </DropDownMenu>
                         <TimePicker format="ampm" hintText="12hr Format" value={this.state.expirationDate} onChange={this.handleChangeTimePicker12}/>
                         <ValidatedInput field="tags" type="text" floatingLabelText="What types of items are you donating?" changeCallback={this.handleChange} errors={tagErrors} />
