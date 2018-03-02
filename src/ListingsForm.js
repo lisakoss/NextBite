@@ -142,7 +142,7 @@ export class ListingsForm extends React.Component {
                         <TextField className="field-margin" field="tags" type="text" hintText="For ex: fruits, apples, celery" floatingLabelText="Types of food you are donating?" floatingLabelFixed={true} changeCallback={this.handleChange} errors={tagErrors}/>
 
                         <div>
-                            <RaisedButton id="submit-button" label="sign up" primary={true} disabled={!submitEnabled} onClick={(event) => this.submit(event)} />
+                            <RaisedButton id="submit-button" label="list donation" primary={true} disabled={!submitEnabled} onClick={(event) => this.submit(event)} />
                         </div>
                     </form>
                 </div>
