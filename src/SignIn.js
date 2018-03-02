@@ -1,17 +1,14 @@
 import React from 'react';
 import firebase from 'firebase';
-
-import SignInForm from './SignInForm';
-
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
+
+import SignInForm from './SignInForm';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const styles = {
     snack: {
         textAlign: 'center',
-    },
-    progress: {
-        marginTop: '10px',
     }
 }
 
@@ -30,9 +27,9 @@ class SignIn extends React.Component {
     componentDidMount() {
         // Add a listener and callback for authentication events 
         this.unregister = firebase.auth().onAuthStateChanged(user => {
-            if(user) { //if logged in, redirects to message board
+            if(user) { 
                 this.setState({userId:user.uid});
-                this.loadApp();
+                this.props.history.push('/');
             } else{
                 this.setState({userId: null}); //null out the saved state
             }
@@ -68,20 +65,21 @@ class SignIn extends React.Component {
 
     render() {
         let content = null; //what main content to show
-        var snackbarContent = null //what snackbar content to show
+        var snackbarContent = null; //what snackbar content to show
 
         if(!this.state.userId) { //if logged out, show signup form
-            content = (<div><SignInForm signInCallback={this.signIn} history={this.props.history}/></div>);
+            content = (<div><SignInForm signInCallback={this.signIn} /*history={this.props.history}*//></div>);
         }
         if(this.state.spinnerDisplay) { // show spinner when loading
-            snackbarContent = <CircularProgress style={styles.progress}/>;
+            snackbarContent = <CircularProgress />;
         } else if(this.state.error !== undefined) { // otherwise show error msg
             snackbarContent = this.state.error;
         } 
 
         return (
+            <MuiThemeProvider>
             <div>      
-                <main role="article" className="container-content">   
+                <main role="article" className="content-container">   
                     {content}
                 </main>
                 <div role="region">
@@ -92,7 +90,8 @@ class SignIn extends React.Component {
                         style={styles.snack}
                         onRequestClose={this.handleTimeoutSnackbar}/>
                 </div>
-            </div>   
+            </div>  
+            </MuiThemeProvider>    
         );
     }
 }

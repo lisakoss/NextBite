@@ -3,6 +3,8 @@ import firebase from 'firebase';
 import './index.css';
 
 import RaisedButton from 'material-ui/RaisedButton';
+import Exit from 'material-ui/svg-icons/action/exit-to-app';
+import { white } from 'material-ui/styles/colors';
 
 //A component that will sign the user out of the website
 class Logout extends React.Component {
@@ -41,7 +43,7 @@ class Logout extends React.Component {
       <div>
 				{this.state.userId &&  /*inline conditional rendering*/
           <div className="container-drawer">
-              <RaisedButton id="submit-button" label="sign out" primary={true} onClick={(event) => this.signOut()} />
+            <RaisedButton id="submit-button" label="sign out" overlayStyle={{backgroundColor: '#244B65'}} icon={<Exit color={white} style={{width:'20px'}}/>} primary={true} onClick={(event) => this.signOut()}/>
           </div>
         }
 			</div>

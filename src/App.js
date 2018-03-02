@@ -15,6 +15,8 @@ import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import FontIcon from 'material-ui/FontIcon';
 
 class App extends React.Component {
   constructor(props){
@@ -39,13 +41,14 @@ class App extends React.Component {
             this.setState({firstName: snapshot.child("firstName").val()});
             this.setState({lastName: snapshot.child("lastName").val()});
             this.setState({avatar: snapshot.child("avatar").val()});
+            this.setState({personType: snapshot.child("personType").val()});
           });
-      }
-      else{
-        this.setState({userId: null}); //null out the saved state
-        this.setState({firstName: null}); //null out the saved state
-        this.setState({lastName: null}); //null out the saved state
-        this.setState({avatar: null}); //null out the saved state
+      } else { //null out the saved state
+        this.setState({userId: null});
+        this.setState({firstName: null});
+        this.setState({lastName: null}); 
+        this.setState({avatar: null}); 
+        this.setState({personType: null}); 
       }
     })
   }
@@ -58,64 +61,111 @@ class App extends React.Component {
   }
 
   render() {
-    var profileImg = null;
-		var drawerContent = null;
-		var drawerTitle = null;
+    let profileImgDrawer = null;
+    let profileImgNav = null;
+		let drawerContent = null;
+    let drawerTitle = null;
+    let drawerWidth = null;
+    let userTypeDrawer = null;
+    let userTypeNav = null;
 		if(this.state.userId !== null) {
 
       if(this.state.avatar !== '') {
-        profileImg = <Avatar className="avatar" src={this.state.avatar} />
+        profileImgDrawer = <Avatar style={{width: '150px', height: '150px', fontSize: '56px'}} src={this.state.avatar} />
       } else {
-        profileImg = <Avatar>{this.state.firstName.charAt(0).toUpperCase()}</Avatar>
+        profileImgDrawer = <Avatar style={{width: '150px', height: '150px', fontSize: '56px'}}>{this.state.firstName.charAt(0).toUpperCase()}</Avatar>
       } 
+
+      if(this.state.avatar !== '') {
+        profileImgNav = <Avatar style={{width: '30px', height: '30px'}} src={this.state.avatar} />
+      } else {
+        profileImgNav = <Avatar style={{width: '30px', height: '30px', fontSize: '14px'}}>{this.state.firstName.charAt(0).toUpperCase()}</Avatar>
+      } 
+
+      if(this.state.personType === 'volunteer') {
+        userTypeDrawer = ( 
+          <div>
+            <MenuItem onClick={this.handleClose} className="menu-items"><Link to="">Rescue History</Link></MenuItem>
+          </div>
+        );
+        userTypeNav = (
+          <div className="appbar">
+            <ul className="inline-list">
+              <li><Link to="/map">Rescue Food</Link></li>
+              <li><Link to="">Pending Rescues</Link></li>
+              <li style={{marginTop: '10px'}}><Link to={this.state.userId !== null ? "/profile/" + this.state.userId : "/signin"}>{this.state.userId !== null ? this.state.firstName : 'Login'} <span className="profile-nav">{profileImgNav}</span></Link></li>
+            </ul>
+          </div>
+        );
+      } else if(this.state.personType === 'vendor') {
+        userTypeDrawer = (
+          <div>
+            <MenuItem onClick={this.handleClose} className="menu-items"><Link to="">Donation History</Link></MenuItem>
+          </div>
+        );
+        userTypeNav = (
+          <div className="appbar">
+            <ul className="inline-list">
+              <li><Link to="">Donate Food</Link></li>
+              <li><Link to="">Pending Donations</Link></li>
+              <li style={{marginTop: '10px'}}><Link to={this.state.userId !== null ? "/profile/" + this.state.userId : "/signin"}>{this.state.userId !== null ? this.state.firstName : 'Login'} <span className="profile-nav">{profileImgNav}</span></Link></li>
+            </ul>
+          </div>
+        );
+      }
 
 			drawerContent = (
         <div>
           <div className="nav-container">
-            <p className="profile-drawer">
-              {profileImg}
-            </p>
-            <p className="links">Quick Links</p>
+            <span className="profile-drawer">
+              {profileImgDrawer}
+            </span>
+            <h2 className="links-title">Quick Links</h2>
           </div>
-          <div>
-            <a href="/profileedit">Edit profile</a>
-            <a href="/createpost">Create a listing</a>
-            <a href="/recentlistings">Recent listings</a>
+          <div className="drawer-links">
+            {userTypeDrawer}
+            <MenuItem onClick={this.handleClose} className="menu-items"><Link to="">Manage Account</Link></MenuItem>
             <div className="nav-container">
-              <Logout/>
+              <br/>
+              <Logout />
             </div>
           </div>
         </div>
       );
 			drawerTitle = (
         <div className="drawer-title">
-          {this.state.displayName}
-            <a href={"/profile/" + this.state.userId}></a>
-        </div>)
-      ;
+          <span className="drawer-displayname">{this.state.firstName} {this.state.lastName}</span>
+          <Link style={{display: 'inline-flex', verticalAlign: 'middle'}} to={"/profile/" + this.state.userId}>
+            <IconButton tooltip="go to profile">
+              <FontIcon className="material-icons" color={'#6E98A7'}>arrow_forward</FontIcon>
+            </IconButton>
+          </Link>
+        </div>);
 		} else {
-			drawerContent = (<div role="navigation"><span>You must <Link to="/sign in">sign in</Link> or <Link to="/signup">sign up</Link> to view this content.</span></div>);
-}
+			drawerContent = (<div role="navigation" className="nav-container loggedout"><span>You must <Link to="/signin">sign in</Link> or <Link to="/signup">sign up</Link> to view this content.</span></div>);
+    }
+
+    if(window.innerWidth  <= 640) {
+      drawerWidth = window.innerWidth;
+    } else {
+      drawerWidth = 250;
+    }
+
     return (
       <MuiThemeProvider>
         <div style={{height: '100%'}} role="main">
-          <AppBar title={<span><Link to="/" className="header-link">NextBite</Link></span>}/>
-            <div role="navigation">
-							<Link to="/link">link</Link>
-							<Link to="/link">link</Link>
-							<Link to={this.state.userId !== null ? "/profile/" + this.state.userId : "/signin"}>{this.state.userId !== null ? this.state.firstName : 'Login'} <span className="profile-nav">{profileImg}</span></Link>
-						</div>
+          <AppBar style={{backgroundColor: '#6E98A7'}} title={<span><Link to="/" className="appname-link">NEXTBITE</Link></span>} onLeftIconButtonClick={this.handleToggle} children={userTypeNav}/>
 
           <Drawer
           docked={false}
-          width={200}
+          width={drawerWidth}
           open={this.state.isDrawerOpen}
           onRequestChange={(isDrawerOpen) => this.setState({isDrawerOpen})}
           >
-          <MenuItem onClick={this.handleClose}>Menu Item</MenuItem>
-          <MenuItem onClick={this.handleClose}>Menu Item 2</MenuItem>
+            {drawerTitle}
+            {drawerContent}
           </Drawer> 
-          
+        
 					<div role="main">
             <Switch>
               <Route exact path="/" component={Home}/>
