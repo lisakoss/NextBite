@@ -26,8 +26,6 @@ ReactDOM.render(
       <div>
           <Switch>
               <Route path="/" component={App}/>
-              <Route path="/signup" component={SignUp}/>
-              <Route path="/signin" component={SignIn}/>
           </Switch>
       </div>
     </Router>, 
