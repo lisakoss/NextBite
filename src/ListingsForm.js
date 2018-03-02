@@ -59,13 +59,13 @@ export class ListingsForm extends React.Component {
         this.props.submitCallback(this.state.location, this.state.boxes, this.state.expirationDate, this.state.weight, this.state.tags);
     }
 
-        /**
-   * A helper function to validate a value based on a hash of validations
-   * second parameter has format e.g.,
-   * {required: true, minLength: 5, email: true}
-   * (for required field, with min length of 5, and valid email)
-   */
-  validate(value, validations) {
+    /**
+     * A helper function to validate a value based on a hash of validations
+     * second parameter has format e.g.,
+     * {required: true, minLength: 5, email: true}
+     * (for required field, with min length of 5, and valid email)
+     */
+    validate(value, validations) {
     let errors = {isValid: true, style:''};
 
     if(value !== undefined) { //check validations

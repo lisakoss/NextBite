@@ -7,6 +7,7 @@ import Map from './Map';
 import Marker from './Marker';
 import InfoWindow from './InfoWindow';
 import $ from 'jquery';
+import ListingItem from './ListingItem';
 
 import GoogleApiComponent from 'google-maps-react/dist/GoogleApiComponent';
 
@@ -18,6 +19,7 @@ export class Container extends React.Component {
             showingInfoWindow: false,
             activeMarker: {},
             selectedPlace: {},
+            markers: [],
             listings: []
         }
 
@@ -80,16 +82,6 @@ export class Container extends React.Component {
         })
     }
 
-
-
-    getData(location) {
-        return $.getJSON(`https://maps.googleapis.com/maps/api/geocode/json?address=${location},+Seattle,+WA&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE`).then(function(data) {
-            //data is the JSON string
-            console.log(data.results[0].geometry.location);
-            return data.results[0].geometry.location;
-        });
-    }
-
     render() {
 
         /*// don't show if don't have user data yet
@@ -109,6 +101,17 @@ export class Container extends React.Component {
             );
         })
 
+        /* Create a list of <ListingItem /> objects. */
+        var listingItems = this.state.listings.map((listing) => {
+            return (
+                <ListingItem 
+                        location={listing.location}
+                        key={listing.key}
+                        id={listing.key}
+                        />
+            );
+        })
+
         const style = {
             width: '65%',
             height: '100vh',
@@ -116,11 +119,11 @@ export class Container extends React.Component {
             display: 'inline-block'
         }
         const pos = {lat: 47.7204208, lng: -122.2885376} // where location marker goes
-        //console.log(markers)
+
         return (
             <div className="container">
                 <div className="map-info">
-                    <p>hi</p>
+                    {listingItems}
                 </div>
                 <div style={style}>
                     <Map google={this.props.google}

@@ -41,6 +41,7 @@ h1 {
   height:100vh;
   display: 'inline-block';
   float: left;
+  overflow: auto;
 }
 
 /* avatar */
