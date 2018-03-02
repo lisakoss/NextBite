@@ -67,6 +67,7 @@ export class Container extends React.Component {
             return (
                 <MapCards 
                     location={langValue}
+                    title = {listing.location}
                     google = {this.props.google}
                 />
             );
@@ -149,6 +150,9 @@ export class Container extends React.Component {
         console.log(this.state.currentLocation);
         return (
             <div className="container">
+                <div className="map-info">
+                    {this.state.mapCards}
+                </div>
                 <div style={style}>
                     <Map google={this.props.google}
                             onClick={this.onMapClick}
@@ -168,9 +172,6 @@ export class Container extends React.Component {
                             </div>
                         </InfoWindow>
                     </Map>
-                </div>
-                <div className="map-info">
-                    {this.state.mapCards}
                 </div>
             </div>
         );
