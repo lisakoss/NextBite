@@ -8,14 +8,33 @@ import { Redirect } from 'react-router-dom';
 class MapCards extends React.Component {
     constructor(props){
       super(props);
-
-        currentLocation: {}
-      
     }
 
     componentWillMount() {
-        this.setState({currentLocation: this.props})
+        this.setState({currentLocation: this.props.location})
     }
+
+    componentDidMount() {
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.props.location.lat},${this.props.location.lng}&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE`)
+          .then(request => request.json())
+          .then(data => { this.setState({formattedAddress: data.results[0].formatted_address });
+          });
+      }
+
+    /*componentDidMount() {
+        let addr = ''
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.props.location.lat},${this.props.location.lng}&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE`)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(myJson) {
+            console.log("fetchhh")
+            console.log(String(myJson.results[0].formatted_address));
+            addr = String(myJson.results[0].formatted_address)
+            this.setState({formattedAddress: addr})
+            //this.setState({formattedAddress: String(myJson.results[0].formatted_address)})
+        });
+    }*/
 
 
     /*shouldComponentUpdate() {
@@ -29,17 +48,16 @@ class MapCards extends React.Component {
     }*/
       
     render() {
-      //var id = "/listings/" + this.props.id;
-      //console.log(this.state.currentLocation);
-      console.log(this.props)
-      console.log("state??")
+      console.log("state")
       console.log(this.state.currentLocation)
+      console.log("form add")
+      console.log(this.state.formattedAddress)
 
-      console.log("prps")
-      console.log(this.props.location)
+      https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE
     return (
     <div role="article">
-        <p>{this.props.location.lat}</p>
+        <p>{this.state.currentLocation.lat}</p>
+        <p>{this.state.formattedAddress}</p>
     </div>      
     );
     }
