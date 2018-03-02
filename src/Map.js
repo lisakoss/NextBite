@@ -18,7 +18,7 @@ export class Map extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         if (this.props.centerAroundCurrentLocation) {
             if (navigator && navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
@@ -32,7 +32,7 @@ export class Map extends React.Component {
                 })
             }
         }
-        this.loadMap();
+        this.loadMap(); 
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -55,6 +55,9 @@ export class Map extends React.Component {
         if (map) {
             let center = new maps.LatLng(curr.lat, curr.lng)
             map.panTo(center)
+            var lang = this.state.currentLocation;
+            console.log(lang)
+            this.props.onLocationChange(lang);    
         }
     }
     

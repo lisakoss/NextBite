@@ -34,6 +34,10 @@ h2 {
   line-height: 24px;
 }
 
+.field-margin {
+  margin-top: 14px;
+}
+
 /* errors */
 .has-error {
   color: red;
@@ -84,6 +88,7 @@ li a {
   height:100vh;
   display: 'inline-block';
   float: left;
+  overflow: auto;
 }
 
 /* avatar */
