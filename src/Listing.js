@@ -68,7 +68,8 @@ class Listing extends React.Component {
             expirationDate: String(expirationDate),
             weight: weight,
             tags: tags,
-            time: firebase.database.ServerValue.TIMESTAMP
+            time: firebase.database.ServerValue.TIMESTAMP,
+            userId: firebase.auth().currentUser.uid
         }
         
         let listing = listingsRef.push(newListing); // upload msg to database

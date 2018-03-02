@@ -8,6 +8,7 @@ import Marker from './Marker';
 import InfoWindow from './InfoWindow';
 import $ from 'jquery';
 import ListingItem from './ListingItem';
+import MapCards from './MapCards';
 
 import GoogleApiComponent from 'google-maps-react/dist/GoogleApiComponent';
 
@@ -20,12 +21,19 @@ export class Container extends React.Component {
             activeMarker: {},
             selectedPlace: {},
             markers: [],
-            listings: []
+            listings: [],
+            distances: [],
+            currentLocation: {
+                lat: 0,
+                lng: 0
+            },
+            mapCards: []
         }
 
         this.onMarkerClick = this.onMarkerClick.bind(this);
         this.onMapClick = this.onMapClick.bind(this);
         this.onInfoWindowClose = this.onInfoWindowClose.bind(this);
+        this.handleLanguage = this.handleLanguage.bind(this);
     }
         
     //Lifecycle callback executed when the component appears on the screen.
@@ -41,13 +49,30 @@ export class Container extends React.Component {
             });
             //listingArray.sort((a,b) => b.time - a.time); //reverse order
             this.setState({listings: listingArray});
+            //fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE`)
         });
     }
-
+    
     /* When component will be removed. */
     componentWillUnmount() {
         //unregister listeners
         firebase.database().ref('listings').off();
+    }
+
+    handleLanguage = (langValue) => {
+        console.log("new LOC!")
+
+        /* Create a list of <ListingItem /> objects. */
+        var mapCards = this.state.listings.map((listing) => {
+            return (
+                <MapCards 
+                    location={langValue}
+                />
+            );
+        })
+
+        this.setState({mapCards: mapCards})
+        //this.setState({location: langValue});
     }
 
     getInitialState() {
@@ -106,6 +131,7 @@ export class Container extends React.Component {
             return (
                 <ListingItem 
                         location={listing.location}
+                        userId={listing.userId}
                         key={listing.key}
                         id={listing.key}
                         />
@@ -119,15 +145,13 @@ export class Container extends React.Component {
             display: 'inline-block'
         }
         const pos = {lat: 47.7204208, lng: -122.2885376} // where location marker goes
-
+        console.log(this.state.currentLocation);
         return (
             <div className="container">
-                <div className="map-info">
-                    {listingItems}
-                </div>
                 <div style={style}>
                     <Map google={this.props.google}
-                            onClick={this.onMapClick}>
+                            onClick={this.onMapClick}
+                            onLocationChange={this.handleLanguage}>
                         <Marker onClick={this.onMarkerClick}
                                 name={'Current Location'}/>
                         <Marker onClick={this.onMarkerClick}
@@ -143,6 +167,9 @@ export class Container extends React.Component {
                             </div>
                         </InfoWindow>
                     </Map>
+                </div>
+                <div className="map-info">
+                    {this.state.mapCards}
                 </div>
             </div>
         );

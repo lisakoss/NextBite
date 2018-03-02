@@ -16,7 +16,7 @@ class ListingItem extends React.Component {
     }
       
     render() {
-      var id = "/posts/" + this.props.id;
+      //var id = "/listings/" + this.props.id;
 
     return (
     <div className="card-column" role="article">
