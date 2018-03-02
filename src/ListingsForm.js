@@ -147,8 +147,8 @@ export class ListingsForm extends React.Component {
                         
                         <TimePicker className="field-margin" format="ampm" hintText="Expiration of donation" value={this.state.expirationDate} onChange={this.handleChangeTimePicker12}/>
                         
-                        <TextField className="field-margin" field="tags" type="text" hintText="For ex: fruits, apples, celery" floatingLabelText="Types of food you are donating?" floatingLabelFixed={true} changeCallback={this.handleChange} errors={tagErrors}/>
-
+                        <ValidatedHintInput field="tags" type="text" hintText="For ex: fruits, apples, celery" floatingLabelText="Types of food you are donating?" floatingLabelFixed={true} changeCallback={this.handleChange} errors={tagErrors}/>
+                        
                         <div>
                             <RaisedButton backgroundColor='#244B65' labelColor='#ffffff' id="submit-button" label="list donation" disabled={!submitEnabled} onClick={(event) => this.submit(event)} />
                         </div>
@@ -173,6 +173,25 @@ class ValidatedInput extends React.Component {
                 <TextField
                     onChange={this.props.changeCallback}
                     floatingLabelText={this.props.floatingLabelText}
+                    id={this.props.field}
+                    type={this.props.type}
+                    name={this.props.field}
+                />
+               <ValidationErrors errors={this.props.errors}/>
+            </div>
+        );
+    }
+}
+
+class ValidatedHintInput extends React.Component {
+    render() {
+        return (
+            <div className={"form-group "+this.props.errors.style}>
+                <TextField
+                    onChange={this.props.changeCallback}
+                    floatingLabelText={this.props.floatingLabelText}
+                    hintText={this.props.hintText}
+                    floatingLabelFixed={this.props.floatingLabelFixed}
                     id={this.props.field}
                     type={this.props.type}
                     name={this.props.field}
