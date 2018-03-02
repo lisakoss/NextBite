@@ -67,6 +67,7 @@ export class Container extends React.Component {
             return (
                 <MapCards 
                     location={langValue}
+                    google = {this.props.google}
                 />
             );
         })

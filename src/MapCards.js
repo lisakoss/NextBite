@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
+import $ from 'jquery';
 
 /* A single listing. */
 class MapCards extends React.Component {
@@ -15,10 +16,24 @@ class MapCards extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.props.location.lat},${this.props.location.lng}&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE`)
-          .then(request => request.json())
-          .then(data => { this.setState({formattedAddress: data.results[0].formatted_address });
-          });
+            var google = this.props.google;
+            var origin1 = new google.maps.LatLng(this.props.location.lat, this.props.location.lng)
+            var destinationA = 'Washington, DC, USA';
+
+              var service = new google.maps.DistanceMatrixService();
+              service.getDistanceMatrix(
+                {
+                  origins: [origin1],
+                  destinations: [destinationA],
+                  travelMode: 'DRIVING',
+                }, callback);
+              
+                function callback(response, status) {
+                   console.log(response.rows[0].elements[0].distance.value * 0.621371);
+                   console.log(response.rows[0].elements[0].duration.text);
+                  }
+
+        
       }
 
     /*componentDidMount() {
@@ -53,7 +68,7 @@ class MapCards extends React.Component {
       console.log("form add")
       console.log(this.state.formattedAddress)
 
-      https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE
+      //https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE
     return (
     <div role="article">
         <p>{this.state.currentLocation.lat}</p>
