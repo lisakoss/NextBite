@@ -80,6 +80,15 @@ export class ListingsForm extends React.Component {
             errors.minLength = validations.minLength;
             errors.isValid = false;
         }
+
+        //handle email type
+        if(validations.tags) {
+            let valid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value)
+            if(!valid) {
+            errors.email = true;
+            errors.isValid = false;
+         }
+}
     }
 
     //display details
@@ -95,9 +104,8 @@ export class ListingsForm extends React.Component {
 
     render() { 
         //field validation
-        // ADD CHECKING ERROR FOR NUMBER INPUT ONLY!!!!!
         let boxesErrors = this.validate(this.state.boxes, {required: true, minLength: 1});
-        let tagErrors = this.validate(this.state.tags, {required: true, minLength: 1});
+        let tagErrors = this.validate(this.state.tags, {required: true, tags: true, minLength: 1});
         let submitEnabled = (boxesErrors && tagErrors)
         return (
             <div role="article">
