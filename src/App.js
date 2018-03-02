@@ -122,7 +122,7 @@ class App extends React.Component {
               <Route path="/signup" component={SignUp}/>
               <Route path="/signin" component={SignIn}/>
               <Route path="/map" component={MapContainer}/>
-              <Route path="/createlisting" component={Listing}/>
+              <Route path="/list-donation" component={Listing}/>
             </Switch>
 					</div>
         </div>

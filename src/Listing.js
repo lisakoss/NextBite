@@ -94,7 +94,6 @@ class Listing extends React.Component {
         let snackbarContent = null; //what snackbar content to show
 
         if(this.state.userId) { //if logged in
-            console.log("???")
             content = (<div><ListingsForm submitCallback={this.submit} /></div>);
         } 
 
@@ -105,14 +104,14 @@ class Listing extends React.Component {
         }
 
         return(
-        <div>
-            <main role="article">
-                {content}
-            </main>
-            <div role="region">
+            <div>
+                <main role="article">
+                    {content}
+                </main>
+                <div role="region">
 
+                </div>
             </div>
-        </div>
         );
     }
 }

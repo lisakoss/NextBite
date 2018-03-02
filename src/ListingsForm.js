@@ -6,7 +6,7 @@ import TextField from 'material-ui/TextField';
 import Avatar from 'material-ui/Avatar';
 import AppBar from 'material-ui/AppBar';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import DropDownMenu from 'material-ui/DropDownMenu';
+import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TimePicker from 'material-ui/TimePicker';
 
@@ -23,7 +23,7 @@ export class ListingsForm extends React.Component {
             location: undefined,
             boxes: undefined,
             expirationDate: undefined,
-            weight: 1, 
+            weight: undefined, 
             tags: undefined
         };
 
@@ -102,11 +102,11 @@ export class ListingsForm extends React.Component {
         return (
             <div role="article">
                 <div className="container-content">
-                    <h1>create listing</h1>
+                    <h1>list a donation</h1>
 
                     <form>
-                        <p>Your Location:</p>
-                        <DropDownMenu name="location" value={this.state.location} onChange={this.handleLocationDropDown} style={styles.customWidth} autoWidth={false} maxHeight={200}>
+                        <SelectField name="location" floatingLabelText="Your market location" value={this.state.location} onChange={this.handleLocationDropDown} autoWidth={true} maxHeight={210}>
+                            <MenuItem value={null} primaryText="" />
                             <MenuItem value={"Ballard Farmers Market, 47.6450099, -122.3486234"} primaryText="Ballard Farmers Market" />
                             <MenuItem value={"Capitol Hill Farmers Market, 47.6163942, -122.3231928"} primaryText="Capitol Hill Farmers Market" />
                             <MenuItem value={"City Hall Farmers Market, 47.6097185, -122.3597025"} primaryText="City Hall Farmers Market" />
@@ -124,18 +124,23 @@ export class ListingsForm extends React.Component {
                             <MenuItem value={"University District Farmers Market, 47.6656392, -122.3152575"} primaryText="University District Farmers Market" />
                             <MenuItem value={"Wallingford Farmers Market, 47.6623941, -122.3407796"} primaryText="Wallingford Farmers Market" />
                             <MenuItem value={"West Seattle Farmers Market, 47.5612161, -122.3887488"} primaryText="West Seattle Farmers Market" />
-                        </DropDownMenu>
-                        <ValidatedInput field="boxes" type="text" floatingLabelText="Number of Boxes" changeCallback={this.handleChange} errors={boxesErrors} />
-                        <p>Total Weight of All Boxes:</p>
-                        <DropDownMenu name="weight" value={this.state.weight} onChange={this.handleWeightDropDown} style={styles.customWidth} autoWidth={false}>
+                        </SelectField>
+                        
+                        <ValidatedInput field="boxes" type="text" floatingLabelText="Number of boxes" changeCallback={this.handleChange} errors={boxesErrors} />
+
+                        <SelectField name="weight" floatingLabelText="Appoximate weight of boxes" value={this.state.weight} onChange={this.handleWeightDropDown} autoWidth={true}>
+                            <MenuItem value={null} primaryText="" />
                             <MenuItem value={"< 1 lbs"} primaryText="< 1 lbs" />
                             <MenuItem value={"1-3 lbs"} primaryText="1-3 lbs" />
                             <MenuItem value={"5-7 lbs"} primaryText="5-7 lbs" />
                             <MenuItem value={"7-10 lbs"} primaryText="7-10 lbs" />
                             <MenuItem value={"> 10 lbs"} primaryText="> 10 lbs" />
-                        </DropDownMenu>
-                        <TimePicker format="ampm" hintText="12hr Format" value={this.state.expirationDate} onChange={this.handleChangeTimePicker12}/>
-                        <ValidatedInput field="tags" type="text" floatingLabelText="What types of items are you donating?" changeCallback={this.handleChange} errors={tagErrors} />
+                        </SelectField>
+                        
+                        <TimePicker className="field-margin" format="ampm" hintText="Expiration of donation" value={this.state.expirationDate} onChange={this.handleChangeTimePicker12}/>
+                        
+                        <TextField className="field-margin" field="tags" type="text" hintText="For ex: fruits, apples, celery" floatingLabelText="Types of food you are donating?" floatingLabelFixed={true} changeCallback={this.handleChange} errors={tagErrors}/>
+
                         <div>
                             <RaisedButton id="submit-button" label="sign up" primary={true} disabled={!submitEnabled} onClick={(event) => this.submit(event)} />
                         </div>
