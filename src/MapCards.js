@@ -4,21 +4,33 @@ import './index.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 /* A single listing. */
 class MapCards extends React.Component {
     constructor(props){
       super(props);
+
+      this.callback = this.callback.bind(this);
     }
 
     componentWillMount() {
         this.setState({currentLocation: this.props.location})
+        this.setState({title: this.props.title.split(',')[0]})
     }
 
     componentDidMount() {
+            var distance = 0;
+            var time = '';
             var google = this.props.google;
             var origin1 = new google.maps.LatLng(this.props.location.lat, this.props.location.lng)
-            var destinationA = 'Washington, DC, USA';
+            //console.log(this.props.title.split(",")[0]);
+            console.log(this.props.title)
+            console.log(this.state.title)
+            //var destinationA = String(this.props.title.split(',')[0])
+            var destinationA = String(this.props.title.split(",")[0]);
+            console.log(destinationA)
 
               var service = new google.maps.DistanceMatrixService();
               service.getDistanceMatrix(
@@ -26,14 +38,13 @@ class MapCards extends React.Component {
                   origins: [origin1],
                   destinations: [destinationA],
                   travelMode: 'DRIVING',
-                }, callback);
-              
-                function callback(response, status) {
-                   console.log(response.rows[0].elements[0].distance.value * 0.621371);
-                   console.log(response.rows[0].elements[0].duration.text);
-                  }
+                }, this.callback);
+      }
 
-        
+                    
+      callback(response, status) {
+       this.setState({distance: response.rows[0].elements[0].distance.text});
+       this.setState({time: response.rows[0].elements[0].duration.text});
       }
 
     /*componentDidMount() {
@@ -63,18 +74,26 @@ class MapCards extends React.Component {
     }*/
       
     render() {
-      console.log("state")
-      console.log(this.state.currentLocation)
-      console.log("form add")
-      console.log(this.state.formattedAddress)
 
-      //https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE
-    return (
-    <div role="article">
-        <p>{this.state.currentLocation.lat}</p>
-        <p>{this.state.formattedAddress}</p>
-    </div>      
-    );
+        return (
+            <div className="card-column" role="article">
+            <div className="item" role="region">
+                <Card>
+                    <CardTitle title={this.state.title} subtitle={this.state.distance} />
+                    <CardText>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+                    Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+                    Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+                    </CardText>
+                    <CardActions>
+                    <FlatButton label="Action1" />
+                    <FlatButton label="Action2" />
+                    </CardActions>
+                </Card>
+                </div>
+            </div> 
+        );
     }
 }
   
