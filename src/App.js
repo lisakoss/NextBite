@@ -106,7 +106,7 @@ class App extends React.Component {
         userTypeNav = (
           <div className="appbar">
             <ul className="inline-list">
-              <li><Link to="">Donate Food</Link></li>
+              <li><Link to="/list-donation">Donate Food</Link></li>
               <li><Link to="">Pending Donations</Link></li>
               <li style={{marginTop: '10px'}}><Link to={this.state.userId !== null ? "/profile/" + this.state.userId : "/signin"}>{this.state.userId !== null ? this.state.firstName : 'Login'} <span className="profile-nav">{profileImgNav}</span></Link></li>
             </ul>
