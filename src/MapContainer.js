@@ -33,7 +33,7 @@ export class Container extends React.Component {
         this.onMarkerClick = this.onMarkerClick.bind(this);
         this.onMapClick = this.onMapClick.bind(this);
         this.onInfoWindowClose = this.onInfoWindowClose.bind(this);
-        this.handleLanguage = this.handleLanguage.bind(this);
+        this.handleLocation = this.handleLocation.bind(this);
     }
         
     //Lifecycle callback executed when the component appears on the screen.
@@ -59,14 +59,12 @@ export class Container extends React.Component {
         firebase.database().ref('listings').off();
     }
 
-    handleLanguage = (langValue) => {
-        console.log("new LOC!")
-
-        /* Create a list of <ListingItem /> objects. */
+    handleLocation = (locationVal) => {
+        /* Create a list of <MapCard /> objects. */
         var mapCards = this.state.listings.map((listing) => {
             return (
                 <MapCards 
-                    location={langValue}
+                    location={locationVal}
                     title = {listing.location}
                     google = {this.props.google}
                 />
@@ -156,7 +154,7 @@ export class Container extends React.Component {
                 <div style={style}>
                     <Map google={this.props.google}
                             onClick={this.onMapClick}
-                            onLocationChange={this.handleLanguage}>
+                            onLocationChange={this.handleLocation}>
                         <Marker onClick={this.onMarkerClick}
                                 name={'Current Location'}/>
                         <Marker onClick={this.onMarkerClick}
