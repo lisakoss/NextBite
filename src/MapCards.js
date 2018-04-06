@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import Location from 'material-ui/svg-icons/communication/location-on';
+import { redA200 } from 'material-ui/styles/colors';
 
 /* A single listing. */
 class MapCards extends React.Component {
@@ -79,7 +81,7 @@ class MapCards extends React.Component {
             <div className="card-column" role="article">
             <div className="item" role="region">
                 <Card>
-                    <CardTitle title={this.state.title} subtitle={this.state.distance} />
+                    <Location color={redA200} style={{width:'40px'}}/><CardTitle title={this.state.title} subtitle={this.state.distance} />
                     <CardText>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.

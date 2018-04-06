@@ -7,7 +7,6 @@ import Map from './Map';
 import Marker from './Marker';
 import InfoWindow from './InfoWindow';
 import $ from 'jquery';
-import ListingItem from './ListingItem';
 import MapCards from './MapCards';
 
 import GoogleApiComponent from 'google-maps-react/dist/GoogleApiComponent';
@@ -72,7 +71,6 @@ export class Container extends React.Component {
         })
 
         this.setState({mapCards: mapCards})
-        //this.setState({location: langValue});
     }
 
     getInitialState() {
@@ -126,18 +124,6 @@ export class Container extends React.Component {
             );
         })
 
-        /* Create a list of <ListingItem /> objects. */
-        var listingItems = this.state.listings.map((listing) => {
-            return (
-                <ListingItem 
-                        location={listing.location}
-                        userId={listing.userId}
-                        key={listing.key}
-                        id={listing.key}
-                />
-            );
-        })
-
         const style = {
             width: '65%',
             height: '100vh',
@@ -145,12 +131,13 @@ export class Container extends React.Component {
             display: 'inline-block'
         }
         const pos = {lat: 47.7204208, lng: -122.2885376} // where location marker goes
-        console.log(this.state.currentLocation);
+
         return (
             <div className="container">
                 <div className="map-info">
                     {this.state.mapCards}
                 </div>
+                
                 <div style={style}>
                     <Map google={this.props.google}
                             onClick={this.onMapClick}
@@ -161,6 +148,7 @@ export class Container extends React.Component {
                                 name={'Dolores park'}
                                 position={pos}/>
                         {markers}
+
                         <InfoWindow
                             marker={this.state.activeMarker}
                             visible={this.state.showingInfoWindow}
