@@ -34,6 +34,7 @@ export class Container extends React.Component {
     this.onMapClick = this.onMapClick.bind(this);
     this.onInfoWindowClose = this.onInfoWindowClose.bind(this);
     this.handleLocation = this.handleLocation.bind(this);
+    this.pickup = this.pickup.bind(this);
   }
 
   //Lifecycle callback executed when the component appears on the screen.
@@ -57,6 +58,10 @@ export class Container extends React.Component {
   componentWillUnmount() {
     //unregister listeners
     firebase.database().ref('listings').off();
+  }
+
+  pickup() {
+    this.props.history.push('/market')
   }
 
   handleLocation = (locationVal) => {
@@ -96,6 +101,7 @@ export class Container extends React.Component {
                   title={market.key}
                   count={marketKeys.length - 1}
                   google={this.props.google}
+                  pickupCallback={this.pickup}
                 />
               )
               this.setState({ mapCards: currentMapCards })

@@ -8,6 +8,7 @@ import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'm
 import FlatButton from 'material-ui/FlatButton';
 import Location from 'material-ui/svg-icons/communication/location-on';
 import { redA200 } from 'material-ui/styles/colors';
+import {withRouter} from "react-router-dom";
 
 /* A single listing. */
 class MapCards extends React.Component {
@@ -15,6 +16,7 @@ class MapCards extends React.Component {
     super(props);
 
     this.callback = this.callback.bind(this);
+    this.viewPickups = this.viewPickups.bind(this);
   }
 
   componentWillMount() {
@@ -76,9 +78,16 @@ class MapCards extends React.Component {
       return false;
   }*/
 
-  render() {
-    console.log(this.state.listingCount)
+  //handle Pickups button
+  viewPickups() {
+    //event.preventDefault(); //don't submit
+    console.log(this)
+    this.props.pickupCallback(this.state.title);
+    //this.props.history.push('/market')
+    //this.props.history.push('/path')
+  }
 
+  render() {
     return (
       <div className="card-column" role="article">
         <div className="item" role="region">
@@ -89,11 +98,11 @@ class MapCards extends React.Component {
               Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
               Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
               Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.</p>
-              
+
               <p>There are {this.state.listingCount} pickups available.</p>
             </CardText>
             <CardActions>
-              <FlatButton label="Pickups" />
+              <FlatButton label="Pickups" onClick={this.viewPickups} />
             </CardActions>
           </Card>
         </div>
@@ -102,4 +111,6 @@ class MapCards extends React.Component {
   }
 }
 
+
 export default MapCards;
+
