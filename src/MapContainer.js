@@ -57,15 +57,26 @@ export class Container extends React.Component {
   /* When component will be removed. */
   componentWillUnmount() {
     //unregister listeners
-    firebase.database().ref('listings').off();
+    /*firebase.database().ref('listings').off();
+    firebase.database().ref('markets').off();
+    firebase.database().ref('markets/Capitol Hill Farmers Market').off();
+    firebase.database().ref('markets/Capitol Hill Farmers Market/-L9OyGi6s7XwKmLxybWx').off();
+    firebase.database().ref('markets/Rainier Farmers Market').off();
+    firebase.database().ref('markets/Rainier Farmers Market/-L9OXdB3r8O16SazRuxa').off();
+    firebase.database().ref('markets/University District Farmers Market').off();
+    firebase.database().ref('markets/University District Farmers Market/-L9OXZ39iMdlIXRl8cpJ').off();
+    firebase.database().ref('markets/University District Farmers Market/-L9OXb_JXg3gZHDj3Wkx').off();
+    firebase.database().ref('markets/University District Farmers Market/-L9OyHn2_s_wTvllL0hh').off();*/
+
   }
 
-  pickup() {
-    this.props.history.push('/market')
+  pickup(key, pickups) {
+    //this.props.history.push(`/market/hello`);
+    this.props.history.push(`/market/${key}`)
   }
 
   handleLocation = (locationVal) => {
-    var marketsRef = firebase.database().ref(`markets`);
+    var marketsRef = firebase.database().ref('markets');
     marketsRef.on('value', (snapshot) => {
       var marketsArray = [];
       snapshot.forEach(function (child) {
@@ -82,7 +93,6 @@ export class Container extends React.Component {
           let currentMarkets = this.state.markets;
           if (!currentMarkets.includes(market.key)) {
             currentMarkets.push(market.key);
-            this.setState({ markets: currentMarkets });
           }
 
           var marketListingsRef = firebase.database().ref(`markets/${market.key}/${marketKeys[i]}`);
@@ -95,13 +105,14 @@ export class Container extends React.Component {
 
             if ((i + 2) == marketKeys.length) {
               let currentMapCards = this.state.mapCards;
+              this.setState({currentMarket: market.key})
               currentMapCards.push(
                 <MapCards
                   location={locationVal}
                   title={market.key}
                   count={marketKeys.length - 1}
                   google={this.props.google}
-                  pickupCallback={this.pickup}
+                  pickupCallback={() => this.pickup(market.key, marketListingsArray)} 
                 />
               )
               this.setState({ mapCards: currentMapCards })

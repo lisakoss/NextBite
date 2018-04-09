@@ -174,7 +174,7 @@ class App extends React.Component {
               <Route path="/signin" component={SignIn}/>
               <Route path="/map" component={MapContainer}/>
               <Route path="/list-donation" component={Listing}/>
-              <Route path="/market" component={Market}/>
+              <Route path="/market/:marketName" component={Market}/>
             </Switch>
 					</div>
         </div>

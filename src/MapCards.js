@@ -99,7 +99,7 @@ class MapCards extends React.Component {
               Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
               Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.</p>
 
-              <p>There are {this.state.listingCount} pickups available.</p>
+              <p>There are {this.state.listingCount} pickup(s) available.</p>
             </CardText>
             <CardActions>
               <FlatButton label="Pickups" onClick={this.viewPickups} />
