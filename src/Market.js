@@ -38,7 +38,6 @@ class Market extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.match.params.marketName);
     var marketPickups = [];
     var currentMarketCards = [];
     let thisComponent = this;
@@ -47,87 +46,61 @@ class Market extends React.Component {
 
     marketRef.on('value', (snapshot) => {
       snapshot.forEach(function (child) {
-        //console.log(child.key)
-        //console.log(child.val())
         var pickupObj = child.val();
-        console.log(pickupObj.listingId);
         marketPickups.push(pickupObj.listingId);
       })
       this.setState({ pickups: marketPickups });
 
-      console.log(marketPickups)
-      console.log(this.state.pickups);
-  
       var pickups = marketPickups.map((pickup) => {
-        console.log(pickup);
         var listingsRef = firebase.database().ref(`listings/${pickup}`);
         listingsRef.on('value', (snapshot) => {
           var pickupsObj = {};
           snapshot.forEach(function (child) {
-            console.log(child.key)
-            console.log(child.val())
             pickupsObj[child.key] = child.val();
           });
-  
-          console.log(pickupsObj)
-          currentMarketCards.push(<MarketCards 
+
+          var usersRef = firebase.database().ref(`users/${pickupsObj.userId}`);
+          usersRef.on('value', (snapshot) => {
+            var username = "";
+            snapshot.forEach(function (child) {
+              if(child.key == "firstName") {
+                username = child.val();
+              }
+            });
+
+          currentMarketCards.push(<MarketCards
             boxes={pickupsObj.boxes}
-            userName={pickupsObj.userId}/>);
-  
-            console.log(currentMarketCards)
-            this.setState({marketCards: currentMarketCards})
-            console.log(currentMarketCards)
-        })
-      })
-    })
+            userName={username}
+            expiration={pickupsObj.expirationDate}
+            weight={pickupsObj.weight}
+            tags={pickupsObj.tags}/>);
 
-
-      /*let currentMarketCards = [];
-      var pickups = this.props.location.state.pickups.map((listing) => {
-        var listingsRef = firebase.database().ref(`listings/${listing}`);
-        listingsRef.on('value', (snapshot) => {
-          console.log(snapshot);
-          var pickupsObj = {};
-          snapshot.forEach(function (child) {
-            console.log(child.key)
-            console.log(child.val())
-            pickupsObj[child.key] = child.val();
-          });
-  
-  
-        
-          currentMarketCards.push(<MarketCards 
-          boxes={pickupsObj.boxes}
-          userName={pickupsObj.userId}/>);
-        
-      })
-    })
-  
-    this.setState({marketCards: currentMarketCards})*/
-    }
+          this.setState({ marketCards: currentMarketCards })
+        });
+      });
+    });
+  });
+}
 
 
 
   render() {
-        let content = null; //what main content to show
+    let content = null; //what main content to show
 
-        /*if(!this.state.userId) { //if logged out, show signup form
-            content = (<div><SignUpForm signUpCallback={this.signUp}/></div>);
-        }*/
+    /*if(!this.state.userId) { //if logged out, show signup form
+        content = (<div><SignUpForm signUpCallback={this.signUp}/></div>);
+    }*/
 
-        /* Create a list of <Marker /> objects. */
-
-        console.log(this.state.pickups)
-        console.log(this.state.marketCards)
+    /* Create a list of <Marker /> objects. */
 
 
-        content = "hi";
+    content = "hi";
 
-        return(
+    return (
       <div>
-      <main role="article" className="container-content">
+        <main role="article" className="container-content">
           {this.state.marketCards}
-      </main>
+        </main>
       </div >
     );
   }
