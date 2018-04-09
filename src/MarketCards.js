@@ -17,8 +17,8 @@ class MarketCards extends React.Component {
     this.setState({ title: this.props.title.split(',')[0] });
     this.setState({ listingCount: this.props.count });*/
 
-    //this.setState({boxes: this.props.boxes});
-    //this.setState({userName: this.props.userName});
+    this.setState({boxes: this.props.boxes});
+    this.setState({userName: this.props.userName});
   }
 
   componentDidMount() {

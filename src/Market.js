@@ -8,7 +8,7 @@ class Market extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentMarketCards: null
+
     };
   }
 
@@ -41,6 +41,7 @@ class Market extends React.Component {
     console.log(this.props.match.params.marketName);
     var marketPickups = [];
     var currentMarketCards = [];
+    let thisComponent = this;
 
     var marketRef = firebase.database().ref(`markets/${this.props.match.params.marketName}`);
 
@@ -52,11 +53,12 @@ class Market extends React.Component {
         console.log(pickupObj.listingId);
         marketPickups.push(pickupObj.listingId);
       })
-      this.setState({ marketPickups: marketPickups });
+      this.setState({ pickups: marketPickups });
 
-      console.log(this.state.marketPickups);
-
-      var pickups = this.state.marketPickups.map((pickup) => {
+      console.log(marketPickups)
+      console.log(this.state.pickups);
+  
+      var pickups = marketPickups.map((pickup) => {
         console.log(pickup);
         var listingsRef = firebase.database().ref(`listings/${pickup}`);
         listingsRef.on('value', (snapshot) => {
@@ -66,17 +68,19 @@ class Market extends React.Component {
             console.log(child.val())
             pickupsObj[child.key] = child.val();
           });
-
+  
           console.log(pickupsObj)
           currentMarketCards.push(<MarketCards 
             boxes={pickupsObj.boxes}
             userName={pickupsObj.userId}/>);
-
+  
+            console.log(currentMarketCards)
+            this.setState({marketCards: currentMarketCards})
             console.log(currentMarketCards)
         })
       })
-      this.setState({marketCards: currentMarketCards})
     })
+
 
       /*let currentMarketCards = [];
       var pickups = this.props.location.state.pickups.map((listing) => {
@@ -113,6 +117,7 @@ class Market extends React.Component {
 
         /* Create a list of <Marker /> objects. */
 
+        console.log(this.state.pickups)
         console.log(this.state.marketCards)
 
 
