@@ -18,7 +18,7 @@ class MarketCards extends React.Component {
     this.setState({ listingCount: this.props.count });*/
 
     this.setState({boxes: this.props.boxes});
-    this.setState({userName: this.props.userName});
+    this.setState({vendor: this.props.vendor});
     this.setState({expiration: this.props.expiration});
     this.setState({weight: this.props.weight});
     this.setState({tags: this.props.tags});
@@ -33,7 +33,7 @@ class MarketCards extends React.Component {
       <div className="card-column" role="article">
         <div className="item" role="region">
           <Card>
-            <CardTitle title={this.state.userName} subtitle={this.state.expiration} />
+            <CardTitle title={this.state.vendor} subtitle={this.state.expiration} />
             <CardText>
               <p>Boxes: {this.state.boxes}</p>
               <p>Weight: {this.state.weight}</p>

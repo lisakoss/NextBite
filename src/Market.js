@@ -40,10 +40,8 @@ class Market extends React.Component {
   componentDidMount() {
     var marketPickups = [];
     var currentMarketCards = [];
-    let thisComponent = this;
 
     var marketRef = firebase.database().ref(`markets/${this.props.match.params.marketName}`);
-
     marketRef.on('value', (snapshot) => {
       snapshot.forEach(function (child) {
         var pickupObj = child.val();
@@ -61,16 +59,16 @@ class Market extends React.Component {
 
           var usersRef = firebase.database().ref(`users/${pickupsObj.userId}`);
           usersRef.on('value', (snapshot) => {
-            var username = "";
+            var vendor = "";
             snapshot.forEach(function (child) {
-              if(child.key == "firstName") {
-                username = child.val();
+              if(child.key == "vendorName") {
+                vendor = child.val();
               }
             });
 
           currentMarketCards.push(<MarketCards
             boxes={pickupsObj.boxes}
-            userName={username}
+            vendor={vendor}
             expiration={pickupsObj.expirationDate}
             weight={pickupsObj.weight}
             tags={pickupsObj.tags}/>);
