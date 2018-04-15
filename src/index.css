@@ -38,6 +38,10 @@ h2 {
   margin-top: 14px;
 }
 
+.hidden {
+  display: none !important;
+}
+
 /* errors */
 .has-error {
   color: red;
