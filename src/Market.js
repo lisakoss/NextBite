@@ -71,13 +71,20 @@ class Market extends React.Component {
             vendor={vendor}
             expiration={pickupsObj.expirationDate}
             weight={pickupsObj.weight}
-            tags={pickupsObj.tags}/>);
+            tags={pickupsObj.tags}
+            pickupId={pickup}
+            claimDonationCallback={() => this.claimDonation(pickup)} />);
 
           this.setState({ marketCards: currentMarketCards })
         });
       });
     });
   });
+}
+
+claimDonation(key) {
+  //this.props.history.push(`/market/hello`);
+  this.props.history.push(`/listing/${key}`)
 }
 
 

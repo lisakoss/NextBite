@@ -10,22 +10,22 @@ import FlatButton from 'material-ui/FlatButton';
 class MarketCards extends React.Component {
   constructor(props) {
     super(props);
+
+    this.claimDonation = this.claimDonation.bind(this);
   }
 
   componentWillMount() {
-    /*this.setState({ currentLocation: this.props.location });
-    this.setState({ title: this.props.title.split(',')[0] });
-    this.setState({ listingCount: this.props.count });*/
-
-    this.setState({boxes: this.props.boxes});
-    this.setState({vendor: this.props.vendor});
-    this.setState({expiration: this.props.expiration});
-    this.setState({weight: this.props.weight});
-    this.setState({tags: this.props.tags});
+    this.setState({ boxes: this.props.boxes });
+    this.setState({ vendor: this.props.vendor });
+    this.setState({ expiration: this.props.expiration });
+    this.setState({ weight: this.props.weight });
+    this.setState({ tags: this.props.tags });
+    this.setState({ pickupId: this.props.pickupId})
   }
 
-  componentDidMount() {
-
+  //handle claim donation button
+  claimDonation() {
+    this.props.claimDonationCallback(this.state.pickupId);
   }
 
   render() {
@@ -40,7 +40,7 @@ class MarketCards extends React.Component {
               <p>Tags: {this.state.tags}</p>
             </CardText>
             <CardActions>
-              <FlatButton label="Claim Donation" />
+              <FlatButton label="Claim Donation" onClick={this.claimDonation} />
             </CardActions>
           </Card>
         </div>
