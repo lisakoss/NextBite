@@ -1,0 +1,14 @@
+[
+    { "name":"Beacon Avenue Food Bank",
+      "address":"6230 Beacon Ave S",
+      "website":"null",
+      "longitude":"-122.300331",
+      "latitude":"47.546769"
+    },
+    { "name":"Bo Da Dao Trang",
+      "address":"3909 S Sunny View Dr",
+      "website":"http://acrs.org/programs/nutrition.htm",
+      "longitude":"-122.284441",
+      "latitude":"47.515561"
+    }
+]

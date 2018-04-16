@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import { Step, Stepper, StepLabel } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import $ from 'jquery';
 
 class Pickup extends React.Component {
   constructor(props) {
@@ -13,6 +14,34 @@ class Pickup extends React.Component {
   }
 
   componentWillMount() {
+    $.ajax({
+      type: "GET",
+      url: "",
+      dataType: "json",
+      success: function (data) { console.log(data) }
+    });
+
+
+    function processData(allText) {
+      console.log(allText);
+      var allTextLines = allText.split(/\r\n|\n/);
+      var headers = allTextLines[0].split(',');
+      var lines = [];
+
+      for (var i = 1; i < allTextLines.length; i++) {
+        var data = allTextLines[i].split(',');
+        if (data.length == headers.length) {
+
+          var tarr = [];
+          for (var j = 0; j < headers.length; j++) {
+            tarr.push(headers[j] + ":" + data[j]);
+          }
+          lines.push(tarr);
+        }
+      }
+      //alert(lines);
+    }
+
     this.setState({ listingId: this.props.match.params.listingId });
 
     let listingRef = firebase.database().ref(`listings/${this.props.match.params.listingId}`);
