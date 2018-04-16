@@ -30,10 +30,8 @@ class MapCards extends React.Component {
     var time = '';
     var google = this.props.google;
     var origin1 = new google.maps.LatLng(this.props.location.lat, this.props.location.lng)
-    //console.log(this.props.title.split(",")[0]);
     console.log(this.props.title)
     console.log(this.state.title)
-    //var destinationA = String(this.props.title.split(',')[0])
     var destinationA = String(this.props.title.split(",")[0]);
     console.log(destinationA)
 
@@ -52,39 +50,9 @@ class MapCards extends React.Component {
     this.setState({ time: response.rows[0].elements[0].duration.text });
   }
 
-  /*componentDidMount() {
-      let addr = ''
-      fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.props.location.lat},${this.props.location.lng}&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE`)
-      .then(function(response) {
-          return response.json();
-      })
-      .then(function(myJson) {
-          console.log("fetchhh")
-          console.log(String(myJson.results[0].formatted_address));
-          addr = String(myJson.results[0].formatted_address)
-          this.setState({formattedAddress: addr})
-          //this.setState({formattedAddress: String(myJson.results[0].formatted_address)})
-      });
-  }*/
-
-
-  /*shouldComponentUpdate() {
-      console.log(this.state.currentLocation.lat)
-      if(this.state.currentLocation.lat == 0 &&  this.state.currentLocation.lat == 0) {
-          console.log("true!")
-          return true;
-      }
-      console.log("false")
-      return false;
-  }*/
-
   //handle Pickups button
   viewPickups() {
-    //event.preventDefault(); //don't submit
-    console.log(this)
     this.props.pickupCallback(this.state.title);
-    //this.props.history.push('/market')
-    //this.props.history.push('/path')
   }
 
   render() {

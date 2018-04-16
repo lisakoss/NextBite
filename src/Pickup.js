@@ -6,6 +6,9 @@ import { Step, Stepper, StepLabel } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import $ from 'jquery';
+import FoodBankCards from './FoodBankCards';
+
+import GoogleApiComponent from 'google-maps-react/dist/GoogleApiComponent';
 
 class Pickup extends React.Component {
   constructor(props) {
@@ -13,38 +16,10 @@ class Pickup extends React.Component {
     this.state = {};
   }
 
-  componentWillMount() {
-    $.ajax({
-      type: "GET",
-      url: "",
-      dataType: "json",
-      success: function (data) { console.log(data) }
-    });
+  componentDidMount() {
+    this.setState({ listingId: this.props.listingId });
 
-
-    function processData(allText) {
-      console.log(allText);
-      var allTextLines = allText.split(/\r\n|\n/);
-      var headers = allTextLines[0].split(',');
-      var lines = [];
-
-      for (var i = 1; i < allTextLines.length; i++) {
-        var data = allTextLines[i].split(',');
-        if (data.length == headers.length) {
-
-          var tarr = [];
-          for (var j = 0; j < headers.length; j++) {
-            tarr.push(headers[j] + ":" + data[j]);
-          }
-          lines.push(tarr);
-        }
-      }
-      //alert(lines);
-    }
-
-    this.setState({ listingId: this.props.match.params.listingId });
-
-    let listingRef = firebase.database().ref(`listings/${this.props.match.params.listingId}`);
+    let listingRef = firebase.database().ref(`listings/${this.props.listingId}`);
     listingRef.once("value").then(snapshot => {
       this.setState({ boxes: snapshot.child("boxes").val() });
       this.setState({ expirationDate: snapshot.child("expirationDate").val() });
@@ -64,7 +39,8 @@ class Pickup extends React.Component {
             tags={this.state.tags}
             weight={this.state.weight}
             vendorName={this.state.vendorName}
-            listingId={this.props.match.params.listingId}
+            listingId={this.props.listingId}
+            google={this.props.google}
           />
         })
       });
@@ -88,17 +64,64 @@ class Pickup extends React.Component {
 export default Pickup;
 
 class HorizontalLinearStepper extends React.Component {
-  state = {
-    finished: false,
-    stepIndex: 0,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      finished: false,
+      stepIndex: 0,
+    };
+  }
+
+  calculateDistance() {
+    const google = this.props.google;
+    const maps = google.maps;
+    var banksData = {}
+    let currentFoodBankCards = [];
+
+    for (let key in Object.keys(this.state.foodBanks)) {
+
+      var origin1 = { lat: parseFloat(this.props.location.split(",")[1]), lng: parseFloat(this.props.location.split(",")[2]) };
+      var destinationA = { lat: parseFloat(this.state.foodBanks[key].latitude), lng: parseFloat(this.state.foodBanks[key].longitude) };
+
+      var service = new google.maps.DistanceMatrixService();
+      service.getDistanceMatrix(
+        {
+          origins: [origin1],
+          destinations: [destinationA],
+          travelMode: 'DRIVING',
+        }, function (response, status) {
+          currentFoodBankCards.push(
+            <FoodBankCards
+              title={this.state.foodBanks[key].name}
+              distance={response.rows[0].elements[0].distance.text}
+            />
+          );
+
+          this.setState({ foodBankCards: currentFoodBankCards });
+        }.bind(this)
+      );
+    }
+  }
 
   handleNext = () => {
     const { stepIndex } = this.state;
-    if (stepIndex === 1) {
+    if (stepIndex === 0) {
+      //NOTE THIS URL MUST BE CHANGED TO MASTER TO ENSURE CONSISTENCY IN FUTURE ONCE MERGED
+      $.ajax({
+        type: "GET",
+        url: "https://raw.githubusercontent.com/lisakoss/NextBite/claim-donation/FoodBanks.json",
+        dataType: "json",
+        success: function (foodBankData) {
+          this.setState({ foodBanks: foodBankData });
+          this.calculateDistance();
+
+        }.bind(this)
+      });
+    } else if (stepIndex === 1) {
       firebase.database().ref().child('/listings/' + this.props.listingId)
         .update({ claimed: "yes" });
     }
+
     this.setState({
       stepIndex: stepIndex + 1,
       finished: stepIndex >= 2,
@@ -131,7 +154,11 @@ class HorizontalLinearStepper extends React.Component {
           </div>
         );
       case 1:
-        return 'What is an ad group anyways?';
+        return (
+          <div>
+            {this.state.foodBankCards}
+          </div>
+        );
       case 2:
         return (
           <div>
@@ -147,6 +174,8 @@ class HorizontalLinearStepper extends React.Component {
     const { finished, stepIndex } = this.state;
     const contentStyle = { margin: '0 16px' };
 
+    console.log(this.state.foodBankCards)
+
     return (
       <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
         <Stepper activeStep={stepIndex}>
@@ -154,10 +183,10 @@ class HorizontalLinearStepper extends React.Component {
             <StepLabel>Confirm Donation Pickup</StepLabel>
           </Step>
           <Step>
-            <StepLabel>Nearby Locations to Deliver</StepLabel>
+            <StepLabel>Nearby Delivery Locations</StepLabel>
           </Step>
           <Step>
-            <StepLabel>Success</StepLabel>
+            <StepLabel>Successful Pickup Claim</StepLabel>
           </Step>
         </Stepper>
         <div style={contentStyle}>

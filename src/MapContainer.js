@@ -50,28 +50,10 @@ export class Container extends React.Component {
       });
       //listingArray.sort((a,b) => b.time - a.time); //reverse order
       this.setState({ listings: listingArray });
-      //fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Washington,DC&destinations=New+York+City,NY&key=AIzaSyBLkew0nfQHAXvEc4H9rVgGCT5wYVw19uE`)
     });
   }
 
-  /* When component will be removed. */
-  componentWillUnmount() {
-    //unregister listeners
-    /*firebase.database().ref('listings').off();
-    firebase.database().ref('markets').off();
-    firebase.database().ref('markets/Capitol Hill Farmers Market').off();
-    firebase.database().ref('markets/Capitol Hill Farmers Market/-L9OyGi6s7XwKmLxybWx').off();
-    firebase.database().ref('markets/Rainier Farmers Market').off();
-    firebase.database().ref('markets/Rainier Farmers Market/-L9OXdB3r8O16SazRuxa').off();
-    firebase.database().ref('markets/University District Farmers Market').off();
-    firebase.database().ref('markets/University District Farmers Market/-L9OXZ39iMdlIXRl8cpJ').off();
-    firebase.database().ref('markets/University District Farmers Market/-L9OXb_JXg3gZHDj3Wkx').off();
-    firebase.database().ref('markets/University District Farmers Market/-L9OyHn2_s_wTvllL0hh').off();*/
-
-  }
-
   pickup(key, pickups) {
-    //this.props.history.push(`/market/hello`);
     this.props.history.push(`/market/${key}`)
   }
 

@@ -10,7 +10,7 @@ import Logout from './Logout';
 import MapContainer from './MapContainer';
 import Listing from './Listing';
 import Market from './Market';
-import Pickup from './Pickup';
+import PickupContainer from './PickupContainer';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
@@ -176,7 +176,7 @@ class App extends React.Component {
               <Route path="/map" component={MapContainer}/>
               <Route path="/list-donation" component={Listing}/>
               <Route path="/market/:marketName" component={Market}/>
-              <Route path="/listing/:listingId" component={Pickup} />
+              <Route path="/listing/:listingId" component={PickupContainer} />
             </Switch>
 					</div>
         </div>
