@@ -12,6 +12,36 @@ class Pickup extends React.Component {
     this.state = {};
   }
 
+  componentWillMount() {
+    this.setState({ listingId: this.props.match.params.listingId });
+
+    let listingRef = firebase.database().ref(`listings/${this.props.match.params.listingId}`);
+    listingRef.once("value").then(snapshot => {
+      this.setState({ boxes: snapshot.child("boxes").val() });
+      this.setState({ expirationDate: snapshot.child("expirationDate").val() });
+      this.setState({ location: snapshot.child("location").val() });
+      this.setState({ tags: snapshot.child("tags").val() });
+      this.setState({ weight: snapshot.child("weight").val() });
+
+      let vendorRef = firebase.database().ref(`users/${snapshot.child("userId").val()}`);
+      vendorRef.once("value").then(snapshot => {
+        this.setState({ vendorName: snapshot.child("vendorName").val() });
+
+        this.setState({
+          stepper: <HorizontalLinearStepper
+            boxes={this.state.boxes}
+            expirationDate={this.state.expirationDate}
+            location={this.state.location}
+            tags={this.state.tags}
+            weight={this.state.weight}
+            vendorName={this.state.vendorName}
+            listingId={this.props.match.params.listingId}
+          />
+        })
+      });
+    });
+  }
+
   render() {
     let content = null; //what main content to show
     content = "hi";
@@ -19,7 +49,7 @@ class Pickup extends React.Component {
     return (
       <div>
         <main role="article" className="container-content">
-          <HorizontalLinearStepper />
+          {this.state.stepper}
         </main>
       </div >
     );
@@ -29,7 +59,6 @@ class Pickup extends React.Component {
 export default Pickup;
 
 class HorizontalLinearStepper extends React.Component {
-
   state = {
     finished: false,
     stepIndex: 0,
@@ -37,6 +66,10 @@ class HorizontalLinearStepper extends React.Component {
 
   handleNext = () => {
     const { stepIndex } = this.state;
+    if (stepIndex === 1) {
+      firebase.database().ref().child('/listings/' + this.props.listingId)
+        .update({ claimed: "yes" });
+    }
     this.setState({
       stepIndex: stepIndex + 1,
       finished: stepIndex >= 2,
@@ -45,6 +78,10 @@ class HorizontalLinearStepper extends React.Component {
 
   handlePrev = () => {
     const { stepIndex } = this.state;
+    if (stepIndex === 2) {
+      firebase.database().ref().child('/listings/' + this.props.listingId)
+        .update({ claimed: "no" });
+    }
     if (stepIndex > 0) {
       this.setState({ stepIndex: stepIndex - 1 });
     }
@@ -53,11 +90,25 @@ class HorizontalLinearStepper extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return 'Select campaign settings...';
+        return (
+          <div>
+            <p>Claim the following donation request?</p>
+            <p>Boxes: {this.props.boxes}</p>
+            <p>Pickup Expiration: {this.props.expirationDate}</p>
+            <p>Location: {this.props.location}</p>
+            <p>Tags: {this.props.tags}</p>
+            <p>Weight: {this.props.weight}</p>
+            <p>Vendor Name: {this.props.vendorName}</p>
+          </div>
+        );
       case 1:
         return 'What is an ad group anyways?';
       case 2:
-        return 'This is the bit I really care about!';
+        return (
+          <div>
+            <p>Success! You have claimed this donation.</p>
+          </div>
+        );
       default:
         return 'You\'re a long way from home sonny jim!';
     }
@@ -71,13 +122,13 @@ class HorizontalLinearStepper extends React.Component {
       <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
         <Stepper activeStep={stepIndex}>
           <Step>
-            <StepLabel>Confirm Pickup Claim</StepLabel>
+            <StepLabel>Confirm Donation Pickup</StepLabel>
           </Step>
           <Step>
             <StepLabel>Nearby Locations to Deliver</StepLabel>
           </Step>
           <Step>
-            <StepLabel>Delivery Confirmation</StepLabel>
+            <StepLabel>Success</StepLabel>
           </Step>
         </Stepper>
         <div style={contentStyle}>
@@ -95,16 +146,16 @@ class HorizontalLinearStepper extends React.Component {
               </p>
           ) : (
               <div>
-                <p>{this.getStepContent(stepIndex)}</p>
+                {this.getStepContent(stepIndex)}
                 <div style={{ marginTop: 12 }}>
                   <FlatButton
-                    label="Back"
+                    label={stepIndex === 2 ? "" : "Back"}
                     disabled={stepIndex === 0}
                     onClick={this.handlePrev}
                     style={{ marginRight: 12 }}
                   />
                   <RaisedButton
-                    label={stepIndex === 2 ? 'Finish' : 'Next'}
+                    label={stepIndex === 2 ? 'View Pending Rescues' : 'Confirm'}
                     primary={true}
                     onClick={this.handleNext}
                   />

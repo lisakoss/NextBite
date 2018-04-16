@@ -20,7 +20,7 @@ class MarketCards extends React.Component {
     this.setState({ expiration: this.props.expiration });
     this.setState({ weight: this.props.weight });
     this.setState({ tags: this.props.tags });
-    this.setState({ pickupId: this.props.pickupId})
+    this.setState({ pickupId: this.props.pickupId});
   }
 
   //handle claim donation button

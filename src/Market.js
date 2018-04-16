@@ -12,31 +12,6 @@ class Market extends React.Component {
     };
   }
 
-  //Lifecycle callback executed when the component appears on the screen.
-  componentDidMount() {
-    // Add a listener and callback for authentication events
-    /*this.unregister = firebase.auth().onAuthStateChanged(user => {
-        if(user) { 
-            this.setState({userId:user.uid});
-            //this.props.history.push('/');
-        }
-        else{
-            this.setState({userId: null}); //null out the saved state
-        }
-    });*/
-    //var marketsRef = firebase.database().ref('markets');
-    //var marketListingsRef = firebase.database().ref(`markets/${market.key}/${marketKeys[i]}`);
-  }
-
-  //when the component is unmounted, unregister using the saved function
-  componentWillUnmount() {
-    /*if(this.unregister){ //if have a function to unregister with
-        this.unregister(); //call that function!
-        firebase.database().ref('users/'+this.state.userId);
-    }*/
-
-  }
-
   componentDidMount() {
     var marketPickups = [];
     var currentMarketCards = [];
@@ -83,7 +58,6 @@ class Market extends React.Component {
 }
 
 claimDonation(key) {
-  //this.props.history.push(`/market/hello`);
   this.props.history.push(`/listing/${key}`)
 }
 

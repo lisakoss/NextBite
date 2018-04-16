@@ -58,7 +58,7 @@ class Listing extends React.Component {
     }
   }
 
-  submit(location, boxes, expirationDate, weight, tags) {
+  submit(location, boxes, expirationDate, weight, tags, claimed) {
     let thisComponent = this;
     thisComponent.setState({ spinnerDisplay: true }); //show loading spinner while user is being signed up
     thisComponent.setState({ isSnackbarActive: true }); //show snackbar, where spinner is located, while user is being signed up
@@ -71,7 +71,8 @@ class Listing extends React.Component {
       weight: weight,
       tags: tags,
       time: firebase.database.ServerValue.TIMESTAMP,
-      userId: firebase.auth().currentUser.uid
+      userId: firebase.auth().currentUser.uid,
+      claimed: claimed
     }
 
     let listing = listingsRef.push(newListing); // upload msg to database
