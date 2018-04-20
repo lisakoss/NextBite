@@ -11,6 +11,7 @@ import MapContainer from './MapContainer';
 import Listing from './Listing';
 import Market from './Market';
 import Pickup from './Pickup';
+import Preferences from './UserPreferences.js';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
@@ -126,7 +127,7 @@ class App extends React.Component {
           </div>
           <div className="drawer-links">
             {userTypeDrawer}
-            <MenuItem onClick={this.handleClose} className="menu-items"><Link to="">Manage Account</Link></MenuItem>
+            <MenuItem onClick={this.handleClose} className="menu-items"><Link to="/manage">Manage Account</Link></MenuItem>
             <div className="nav-container">
               <br/>
               <Logout />
@@ -177,6 +178,7 @@ class App extends React.Component {
               <Route path="/list-donation" component={Listing}/>
               <Route path="/market/:marketName" component={Market}/>
               <Route path="/listing/:listingId" component={Pickup} />
+              <Route path="/manage" component={Preferences} />
             </Switch>
 					</div>
         </div>

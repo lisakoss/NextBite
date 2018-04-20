@@ -3,6 +3,8 @@ import firebase from 'firebase';
 import Snackbar from 'material-ui/Snackbar';
 import CircularProgress from 'material-ui/CircularProgress';
 
+import {send, sendWithAttachment, ajaxPost, ajax, createCORSRequest} from './smtp.js'
+
 import SignInForm from './SignInForm';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -53,6 +55,7 @@ class SignIn extends React.Component {
         let thisComponent = this;
         thisComponent.setState({spinnerDisplay: true}); //show spinner while user is logging in
         thisComponent.setState({isSnackbarActive: true}); //show snackbar that contains spinner while user is logging in
+        
         // Sign in the user 
         firebase.auth().signInWithEmailAndPassword(email, password) //logs in user with email and password
         .catch(function(error) { //displays an error if there is a mistake with logging a user in
