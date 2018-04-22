@@ -72,17 +72,40 @@ class HorizontalLinearStepper extends React.Component {
     };
   }
 
+  sortDistance() {
+    let sortableDistance = this.state.foodBankDistance;
+
+    sortableDistance.sort(function (a, b) {
+      return a[1] - b[1];
+    });
+    console.log(sortableDistance)
+
+    let currentFoodBankCards = [];
+    for (let i = 0; i < 5; i++) {
+      currentFoodBankCards.push(
+        <FoodBankCards
+          title={sortableDistance[i][1]}
+          distance={sortableDistance[i][0]}
+        />
+      );
+    }
+    this.setState({foodBankCards: currentFoodBankCards});
+  }
+
   calculateDistance() {
     const google = this.props.google;
     const maps = google.maps;
     var banksData = {}
     let currentFoodBankCards = [];
+    let foodBanksInfo = [];
 
-    for (let key in Object.keys(this.state.foodBanks)) {
+    for (let key = 0; key < Object.keys(this.state.foodBanks).length; key++) {
+      console.log(Object.keys(this.state.foodBanks).length);
 
       var origin1 = { lat: parseFloat(this.props.location.split(",")[1]), lng: parseFloat(this.props.location.split(",")[2]) };
       var destinationA = { lat: parseFloat(this.state.foodBanks[key].latitude), lng: parseFloat(this.state.foodBanks[key].longitude) };
 
+      console.log(destinationA)
       var service = new google.maps.DistanceMatrixService();
       service.getDistanceMatrix(
         {
@@ -90,14 +113,54 @@ class HorizontalLinearStepper extends React.Component {
           destinations: [destinationA],
           travelMode: 'DRIVING',
         }, function (response, status) {
-          currentFoodBankCards.push(
-            <FoodBankCards
-              title={this.state.foodBanks[key].name}
-              distance={response.rows[0].elements[0].distance.text}
-            />
-          );
+          /*let sortableDistance = [];
+          for(let location in foodBankData) {
+              sortableDistance.push([foodBankData[location][name], foodBankData[location][distance]]);
+          }
+          
+          sortableDistance.sort(function(a, b) {
+              return a[1] - b[1];
+          });
+          console.log(sortableDistance)*/
+          ////
 
-          this.setState({ foodBankCards: currentFoodBankCards });
+          if(key < Object.keys(this.state.foodBanks).length) {
+            console.log("Current I!!!!")
+            console.log(key)
+            foodBanksInfo.push([this.state.foodBanks[key].name, response.rows[0].elements[0].distance.text]);
+
+            /*currentFoodBankCards.push(
+              <FoodBankCards
+                title={this.state.foodBanks[key].name}
+                distance={response.rows[0].elements[0].distance.text}
+              />
+            );*/
+            this.setState({ foodBankDistance: foodBanksInfo });
+  
+            //this.setState({ foodBankCards: currentFoodBankCards });
+          } 
+          
+          if((key + 1) == Object.keys(this.state.foodBanks).length) {
+            console.log("DID I GO IN HER?@!?@?sdF?DSFsdjfjdsfkljdlkfjdskljdklsjfskdjfkldsj")
+            let sortableDistance = this.state.foodBankDistance;
+
+            console.log(sortableDistance)
+            sortableDistance.sort(function (a, b) {
+              return parseFloat(a[1].split(" ")[0]) - parseFloat(b[1].split(" ")[0]);
+            });
+            console.log(sortableDistance)
+      
+            let currentFoodBankCards = [];
+            for (let i = 0; i < 5; i++) {
+              currentFoodBankCards.push(
+                <FoodBankCards
+                  title={sortableDistance[i][0]}
+                  distance={sortableDistance[i][1]}
+                />
+              );
+            }
+            this.setState({foodBankCards: currentFoodBankCards});
+          }
         }.bind(this)
       );
     }
@@ -114,6 +177,7 @@ class HorizontalLinearStepper extends React.Component {
         success: function (foodBankData) {
           this.setState({ foodBanks: foodBankData });
           this.calculateDistance();
+          console.log(this.state.foodBankDistance)
 
         }.bind(this)
       });
@@ -183,7 +247,7 @@ class HorizontalLinearStepper extends React.Component {
     const { finished, stepIndex } = this.state;
     const contentStyle = { margin: '0 16px' };
 
-    console.log(this.state.foodBankCards)
+    console.log(this.state.foodBankDistance)
 
     return (
       <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
