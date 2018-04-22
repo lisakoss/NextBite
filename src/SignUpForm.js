@@ -63,10 +63,8 @@ class SignUpForm extends React.Component {
     this.setState(changes); //update state
 
     if (value === "vendor") {
-      //$(".vendorDisplay").css({"display": "inline"});
       $(".vendorDisplay").removeClass("hidden")
     } else {
-      //$(".vendorDisplay").css({"display": "none"});
       $(".vendorDisplay").addClass("hidden");
       $(".vendorDisplay").removeClass("has-error");
       $(".vendorDisplay div:nth-child(2) span").empty();
@@ -78,8 +76,7 @@ class SignUpForm extends React.Component {
     event.preventDefault(); //don't submit
     console.log(this.state.vendorName)
 
-      this.props.signUpCallback(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.mobile, this.state.personType, this.state.avatar, this.state.vendorName);
-    
+    this.props.signUpCallback(this.state.email, this.state.password, this.state.firstName, this.state.lastName, this.state.mobile, this.state.personType, this.state.avatar, this.state.vendorName);
   }
 
   /**

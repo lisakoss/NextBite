@@ -120,6 +120,15 @@ class HorizontalLinearStepper extends React.Component {
     } else if (stepIndex === 1) {
       firebase.database().ref().child('/listings/' + this.props.listingId)
         .update({ claimed: "yes" });
+
+      firebase.auth().onAuthStateChanged(user => {
+        let pendingRef = firebase.database().ref('/users/' + user.uid + '/pendingRescues')
+        let pendingListing = {
+          listingId: this.props.listingId,
+        }
+
+        pendingRef.push(pendingListing);
+      })
     }
 
     this.setState({
