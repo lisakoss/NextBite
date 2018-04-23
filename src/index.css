@@ -156,9 +156,9 @@ li a {
   margin-top: 20px;
 }
 
-/* market pages */
-#market-header {
-  
+/* Food Bank Cards */
+.selected-location {
+  background-color: #26A69A !important;
 }
 
 /* #### Mobile Phones Portrait or Landscape #### */

@@ -14,7 +14,9 @@ import { withRouter } from "react-router-dom";
 class FoodBankCards extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {}
     //this.viewPickups = this.viewPickups.bind(this);
+    this.chooseDeliveryLocation = this.chooseDeliveryLocation.bind(this);
   }
 
   componentWillMount() {
@@ -24,7 +26,17 @@ class FoodBankCards extends React.Component {
 
   //handle delivery button
   chooseDeliveryLocation() {
-    //this.props.pickupCallback(this.state.title);
+    //this.setState({bgColor: '#244B65'})
+
+    $("button").removeClass("selected-location");
+    let idName = this.state.title.replace(new RegExp(" ", "g"), "-");
+
+    console.log("#" + idName + " div span")
+    $(".food-bank div span").text("CHOOSE LOCATION")
+    $("#" + idName).addClass("selected-location");
+    $("#" + idName + " div span").html("LOCATION SELECTED")
+
+    this.props.deliveryLocationCallback(this.state.title);
   }
 
   render() {
@@ -41,7 +53,7 @@ class FoodBankCards extends React.Component {
 
             </CardText>
             <CardActions>
-              <FlatButton label="Choose Location" onClick={this.chooseDeliveryLocation} />
+              <FlatButton className="food-bank" id={this.state.title.replace(new RegExp(" ", "g"), "-")} label="Choose Location" onClick={this.chooseDeliveryLocation} />
             </CardActions>
           </Card>
         </div>

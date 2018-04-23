@@ -72,6 +72,10 @@ class HorizontalLinearStepper extends React.Component {
     };
   }
 
+  deliveryLocation(location) {
+    this.setState({ deliveryLocation: location });
+  }
+
   sortDistance() {
     let sortableDistance = this.state.foodBankDistance;
 
@@ -86,10 +90,11 @@ class HorizontalLinearStepper extends React.Component {
         <FoodBankCards
           title={sortableDistance[i][1]}
           distance={sortableDistance[i][0]}
+          deliveryLocationCallback={() => this.deliveryLocation(sortableDistance[i][1])}
         />
       );
     }
-    this.setState({foodBankCards: currentFoodBankCards});
+    this.setState({ foodBankCards: currentFoodBankCards });
   }
 
   calculateDistance() {
@@ -113,53 +118,27 @@ class HorizontalLinearStepper extends React.Component {
           destinations: [destinationA],
           travelMode: 'DRIVING',
         }, function (response, status) {
-          /*let sortableDistance = [];
-          for(let location in foodBankData) {
-              sortableDistance.push([foodBankData[location][name], foodBankData[location][distance]]);
-          }
-          
-          sortableDistance.sort(function(a, b) {
-              return a[1] - b[1];
-          });
-          console.log(sortableDistance)*/
-          ////
+          foodBanksInfo.push([this.state.foodBanks[key].name, response.rows[0].elements[0].distance.text]);
+          this.setState({ foodBankDistance: foodBanksInfo });
 
-          if(key < Object.keys(this.state.foodBanks).length) {
-            console.log("Current I!!!!")
-            console.log(key)
-            foodBanksInfo.push([this.state.foodBanks[key].name, response.rows[0].elements[0].distance.text]);
-
-            /*currentFoodBankCards.push(
-              <FoodBankCards
-                title={this.state.foodBanks[key].name}
-                distance={response.rows[0].elements[0].distance.text}
-              />
-            );*/
-            this.setState({ foodBankDistance: foodBanksInfo });
-  
-            //this.setState({ foodBankCards: currentFoodBankCards });
-          } 
-          
-          if((key + 1) == Object.keys(this.state.foodBanks).length) {
-            console.log("DID I GO IN HER?@!?@?sdF?DSFsdjfjdsfkljdlkfjdskljdklsjfskdjfkldsj")
+          if ((key + 1) == Object.keys(this.state.foodBanks).length) {
             let sortableDistance = this.state.foodBankDistance;
 
-            console.log(sortableDistance)
             sortableDistance.sort(function (a, b) {
               return parseFloat(a[1].split(" ")[0]) - parseFloat(b[1].split(" ")[0]);
             });
-            console.log(sortableDistance)
-      
+
             let currentFoodBankCards = [];
             for (let i = 0; i < 5; i++) {
               currentFoodBankCards.push(
                 <FoodBankCards
                   title={sortableDistance[i][0]}
                   distance={sortableDistance[i][1]}
+                  deliveryLocationCallback={() => this.deliveryLocation(sortableDistance[i][0])}
                 />
               );
             }
-            this.setState({foodBankCards: currentFoodBankCards});
+            this.setState({ foodBankCards: currentFoodBankCards });
           }
         }.bind(this)
       );
@@ -184,6 +163,9 @@ class HorizontalLinearStepper extends React.Component {
     } else if (stepIndex === 1) {
       firebase.database().ref().child('/listings/' + this.props.listingId)
         .update({ claimed: "yes" });
+
+      firebase.database().ref().child('/listings/' + this.props.listingId)
+        .update({ deliveryLocation: this.state.deliveryLocation });
 
       firebase.auth().onAuthStateChanged(user => {
         let pendingRef = firebase.database().ref('/users/' + user.uid + '/pendingRescues')
@@ -248,6 +230,7 @@ class HorizontalLinearStepper extends React.Component {
     const contentStyle = { margin: '0 16px' };
 
     console.log(this.state.foodBankDistance)
+    console.log(this.state.deliveryLocation)
 
     return (
       <div style={{ width: '100%', maxWidth: 700, margin: 'auto' }}>
